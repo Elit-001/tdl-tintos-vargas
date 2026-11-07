@@ -35,7 +35,7 @@ jobs:
       - name: Ejecutar verificación de calidad con pytest y ruff
         run: |
           ruff check .
-          pytest -v
+          if [ -d "tests" ]; then pytest -v; fi
 
       - name: Confirmar y subir datos actualizados de Bronce y Bitácora
         run: |

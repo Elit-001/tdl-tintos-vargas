@@ -1,0 +1,5 @@
+timestamp_inicio,timestamp_fin,fuente,estado,registros_obtenidos,tiempo_segundos,mensaje_error
+2026-11-07T00:53:54.609151+00:00,2026-11-07T00:54:21.974419+00:00,api_open_meteo_clima,EXITOSO,168,27.366,
+2026-11-07T00:54:21.977023+00:00,2026-11-07T00:54:25.152821+00:00,web_sniim_precios,EXITOSO,784,3.175,
+2026-11-07T01:00:38.606599+00:00,2026-11-07T01:00:47.725827+00:00,api_open_meteo_clima,EXITOSO,168,9.116,
+2026-11-07T01:00:47.726827+00:00,2026-11-07T01:00:55.629819+00:00,web_sniim_precios,EXITOSO,784,7.903,
