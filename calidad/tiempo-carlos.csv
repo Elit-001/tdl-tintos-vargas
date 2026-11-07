@@ -1,0 +1,8 @@
+fecha,inicio,fin,interrupcion_min,fase,actividad
+2026-11-02,16:00,18:10,10,Planeación,Definicion de arquitectura Medallion estructura del repositorio y alcance tecnico del observatorio AgroPulse TDL
+2026-11-03,17:00,19:30,15,Diseño,Auditoria de robots.txt en portales SNIIM y Open-Meteo y diseno modular de config.py y clase ExtractorEtico
+2026-11-04,16:30,19:15,15,Codificación,Implementacion de extractores/base.py y extractor_api_clima.py para serie historica de 48 meses en Colima
+2026-11-05,17:15,20:00,20,Codificación,Desarrollo de extractor_web_precios.py con mecanismo resiliente y script orquestador ejecutar_captura.py
+2026-11-06,09:30,11:30,10,Pruebas,Configuracion del workflow captura_diaria.yml en GitHub Actions y validacion de bitacora_captura.csv
+2026-11-06,16:00,18:00,5,Postmortem,Ejecucion de linter ruff pruebas unitarias pytest y consolidacion de evidencias de ingenieria en ENTREGA.md
+

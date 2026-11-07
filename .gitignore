@@ -1,0 +1,22 @@
+# Caché y entornos virtuales de Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Caché de pruebas y linters
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Archivos temporales del sistema, IDE y scripts locales de despliegue
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+subir_*.sh
+contexto_ia/
+
