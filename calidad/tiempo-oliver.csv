@@ -1,0 +1,8 @@
+fecha,inicio,fin,interrupcion_min,fase,actividad
+2026-11-02,16:00,18:00,10,Planeación,Delimitacion del problema agrocomercial en Colima modelo de monetizacion y guion para entrevista de campo
+2026-11-03,10:30,12:15,5,Planeación,Realizacion y transcripcion de entrevista de campo de 22 minutos con productor-comercializador en Valle de Tecoman
+2026-11-04,16:30,19:00,10,Diseño,Formulacion matematica de las 3 preguntas analiticas para E1 Series de Tiempo E2 Factorial 2^3 y E3 PCA-MANOVA
+2026-11-05,17:00,19:30,15,Codificación,Calibracion estadistica de parametros estacionales costos logisticos y volatilidad para 4 cultivos y 4 centrales
+2026-11-06,10:00,12:30,10,Pruebas,Escritura de pruebas de esquema y cardinalidad de 48 periodos en tests/test_extractores.py
+2026-11-06,16:00,18:20,10,Postmortem,Redaccion final de propuesta.md definicion de metas de calidad medibles y revision cruzada PSP de E0
+
