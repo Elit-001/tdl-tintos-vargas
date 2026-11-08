@@ -20,6 +20,9 @@ fecha,zona_agricola,latitud,longitud,temperatura_max_c,temperatura_media_c,preci
 2026-11-06,Armería,18.93,-103.96,30.2,26.8,0.8,3.54,89,2026-11-08,open_meteo_forecast_api
 2026-11-06,Manzanillo,19.05,-104.31,30.7,27.4,0.0,3.92,82,2026-11-08,open_meteo_forecast_api
 2026-11-06,Tecomán,18.91,-103.87,29.8,27.2,0.4,3.58,88,2026-11-08,open_meteo_forecast_api
-2026-11-07,Armería,18.93,-103.96,30.4,26.4,0.0,3.55,88,2026-11-08,open_meteo_forecast_api
-2026-11-07,Manzanillo,19.05,-104.31,29.9,27.1,0.0,3.73,83,2026-11-08,open_meteo_forecast_api
-2026-11-07,Tecomán,18.91,-103.87,29.6,26.9,0.0,3.55,87,2026-11-08,open_meteo_forecast_api
+2026-11-07,Armería,18.93,-103.96,30.4,26.5,0.3,3.56,88,2026-11-08,open_meteo_forecast_api
+2026-11-07,Manzanillo,19.05,-104.31,29.9,27.1,0.1,3.69,85,2026-11-08,open_meteo_forecast_api
+2026-11-07,Tecomán,18.91,-103.87,29.6,27.0,0.1,3.56,87,2026-11-08,open_meteo_forecast_api
+2026-11-08,Armería,18.93,-103.96,30.1,26.1,0.0,3.75,87,2026-11-08,open_meteo_forecast_api
+2026-11-08,Manzanillo,19.05,-104.31,29.8,26.8,0.0,3.9,81,2026-11-08,open_meteo_forecast_api
+2026-11-08,Tecomán,18.91,-103.87,29.2,26.6,0.2,3.7,87,2026-11-08,open_meteo_forecast_api
