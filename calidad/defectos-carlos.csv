@@ -3,4 +3,7 @@ numero,fecha,tipo,fase_introducido,fase_eliminado,minutos_correccion,defecto_ori
 2,2026-11-04,70-Datos,Codificación,Pruebas,22,N/A,Agregacion mensual de precipitacion en Open-Meteo usaba promedio en lugar de suma acumulada alterando la escala hidrologica
 3,2026-11-05,60-Chequeo,Codificación,Pruebas,15,2,Al corregir la agregacion mensual se omitio redondear decimales generando flotantes largos en clima_historico_mensual.csv
 4,2026-11-06,30-Construccion,Codificación,Pruebas,12,N/A,Permiso contents write faltante en captura_diaria.yml impedia el git push automatico del bot en GitHub Actions
-
+5,2026-11-08,60-Chequeo,Codificación,Pruebas,16,N/A,Validacion Pandera sin parametro lazy=True detenia la puerta de calidad en el primer fallo en vez de capturar todos los registros para cuarentena
+6,2026-11-09,70-Datos,Codificación,Pruebas,20,N/A,Normalizacion Min-Max global mezclaba escalas de Aguacate Hass y Platano Chiapas; se corrigio agrupando por cultivo
+7,2026-11-09,50-Interfaz,Codificación,Pruebas,14,N/A,Colision de columnas fecha_captura y fuente_origen en merge de integracion.py; se resolvieron prefijos explicitos antes de unir
+8,2026-11-10,30-Construccion,Codificación,Pruebas,11,N/A,Falta de fetch-depth 0 en actions/checkout limitaba el escaneo historico de secretos en gitleaks detect

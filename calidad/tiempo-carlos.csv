@@ -5,4 +5,7 @@ fecha,inicio,fin,interrupcion_min,fase,actividad
 2026-11-05,17:15,20:00,20,Codificación,Desarrollo de extractor_web_precios.py con mecanismo resiliente y script orquestador ejecutar_captura.py
 2026-11-06,09:30,11:30,10,Pruebas,Configuracion del workflow captura_diaria.yml en GitHub Actions y validacion de bitacora_captura.csv
 2026-11-06,16:00,18:00,5,Postmortem,Ejecucion de linter ruff pruebas unitarias pytest y consolidacion de evidencias de ingenieria en ENTREGA.md
-
+2026-11-08,16:00,18:30,10,Diseño,Diseno de contratos de datos Pandera para puerta_calidad.py y reglas de envio a data/cuarentena sin borrado silencioso
+2026-11-09,15:30,18:45,15,Codificación,Implementacion de pipeline/limpieza.py con diagnostico MCAR/MAR imputacion tratamiento IQR normalizacion Min-Max y discretizacion
+2026-11-09,19:00,21:10,10,Codificación,Desarrollo de pipeline/integracion.py y pipeline/orquestador_e1.py generando dataset_analitico.csv y diccionario_datos.md
+2026-11-10,09:30,12:00,10,Pruebas,Actualizacion de CI/CD con pytest ruff gitleaks y pip-audit y desarrollo del tablero interactivo en Streamlit

@@ -25,6 +25,18 @@ ARCHIVO_CLIMA_DIARIO: Path = DATA_BRONCE / "clima_captura_diaria.csv"
 ARCHIVO_PRECIOS_MENSUAL: Path = DATA_BRONCE / "precios_agro_historico_mensual.csv"
 ARCHIVO_PRECIOS_DIARIO: Path = DATA_BRONCE / "precios_captura_diaria.csv"
 
+ARCHIVO_PLATA_CLIMA: Path = DATA_PLATA / "clima_validado_plata.csv"
+ARCHIVO_PLATA_PRECIOS: Path = DATA_PLATA / "precios_validados_plata.csv"
+ARCHIVO_PLATA_CLIMA_LIMPIO: Path = DATA_PLATA / "clima_limpio_plata.csv"
+ARCHIVO_PLATA_PRECIOS_LIMPIO: Path = DATA_PLATA / "precios_limpios_plata.csv"
+
+ARCHIVO_CUARENTENA_CLIMA: Path = DATA_CUARENTENA / "clima_rechazados_cuarentena.csv"
+ARCHIVO_CUARENTENA_PRECIOS: Path = DATA_CUARENTENA / "precios_rechazados_cuarentena.csv"
+
+ARCHIVO_ORO_ANALITICO: Path = DATA_ORO / "dataset_analitico.csv"
+ARCHIVO_DICCIONARIO_ORO: Path = DATA_ORO / "diccionario_datos.md"
+ARCHIVO_PRONOSTICOS_ORO: Path = DATA_ORO / "pronosticos_e1.csv"
+
 # ==============================================================================
 # 2. COORDENADAS DE ZONAS AGROPRODUCTORAS DE COLIMA
 # ==============================================================================
@@ -87,6 +99,13 @@ CENTRALES_ABASTO: list[str] = [
     "Monterrey",
     "Occidente",
 ]
+
+MAPEO_CULTIVO_ZONA_ORIGEN: dict[str, str] = {
+    "Limón Mexicano": "Tecomán",
+    "Papaya Maradol": "Armería",
+    "Plátano Chiapas": "Manzanillo",
+    "Aguacate Hass": "Tecomán",
+}
 
 COLUMNAS_BITACORA: list[str] = [
     "timestamp_inicio",
