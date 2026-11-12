@@ -15,7 +15,7 @@
 | `costo_logistico_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.35, 6.64] (media=3.61) | Flete refrigerado/ventilado estimado |
 | `margen_comercial_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.32, 50.49] (media=12.79) | Margen neto descontando origen y flete |
 | `margen_comercial_pct` | `float64` | Porcentaje (%) | 100.0% | [8.06, 54.09] (media=35.99) | Margen comercial neto relativo |
-| `fecha_captura_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-11 | Indicador derivado (fecha_captura_precios) |
+| `fecha_captura_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-12 | Indicador derivado (fecha_captura_precios) |
 | `fuente_origen_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: sniim_web_verificado | Indicador derivado (fuente_origen_precios) |
 | `es_atipico_precio` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador derivado (es_atipico_precio) |
 | `precio_mayorista_mxn_kg_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.43) | Indicador derivado (precio_mayorista_mxn_kg_norm) |
@@ -33,7 +33,7 @@
 | `precipitacion_acumulada_mm` | `float64` | Milímetros (mm) | 100.0% | [0.00, 385.91] (media=74.64) | Lluvia acumulada mensual |
 | `evapotranspiracion_mm` | `float64` | Milímetros (mm) | 100.0% | [102.23, 171.73] (media=132.93) | Evapotranspiración FAO ET0 acumulada |
 | `humedad_relativa_pct` | `float64` | Porcentaje (%) | 100.0% | [61.68, 90.10] (media=77.52) | Humedad relativa media mensual |
-| `fecha_captura_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-11 | Indicador derivado (fecha_captura_clima) |
+| `fecha_captura_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-12 | Indicador derivado (fecha_captura_clima) |
 | `fuente_origen_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: open_meteo_archive_api | Indicador derivado (fuente_origen_clima) |
 | `es_atipico_clima` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador derivado (es_atipico_clima) |
 | `temperatura_max_c_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.42) | Indicador derivado (temperatura_max_c_norm) |
