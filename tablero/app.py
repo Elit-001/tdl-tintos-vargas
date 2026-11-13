@@ -126,24 +126,27 @@ def graficar_pronostico_ic(
 def mostrar_explicacion_negocio(
     df_hist: pd.DataFrame, df_pron: pd.DataFrame, cultivo: str, central: str
 ) -> None:
-    """Renderiza la recomendación ejecutiva orientada a toma de decisiones comerciales."""
+    """Renderiza el motor de Brokerage, el Oráculo Agrícola y el botón Ofrecer producto."""
     idx_max = int(df_pron["pronostico_mxn_kg"].idxmax())
     mes_pico = str(df_pron.loc[idx_max, "periodo_mensual"])
-    precio_pico = float(df_pron.loc[idx_max, "pronostico_mxn_kg"])
-    ic_inf = float(df_pron.loc[idx_max, "ic_inferior_95"])
-    ic_sup = float(df_pron.loc[idx_max, "ic_superior_95"])
-    margen_medio = float(df_hist["margen_comercial_pct"].mean())
-    st.subheader("Interpretación de Negocio para Empacadoras y Productores")
+    precio_venta = float(df_pron.loc[idx_max, "pronostico_mxn_kg"])
+    flete = float(df_hist["costo_logistico_mxn_kg"].iloc[-1])
+    precio_compra_prod = round(precio_venta * 0.84, 2)
+    spread_neto = round(precio_venta - precio_compra_prod - (flete * 0.35), 2)
+    st.subheader("Oráculo Agrícola y Motor de Intermediación Inteligente (Brokerage)")
     st.info(
-        f"**Recomendación Estratégica ({cultivo} -> {central}):** El modelo ganador "
-        f"(**Holt-Winters Estacional**) proyecta el pico de cotización en **{mes_pico}** "
-        f"con un precio esperado de **${precio_pico:.2f} MXN/kg** (IC 95%: "
-        f"[${ic_inf:.2f}, ${ic_sup:.2f}] MXN/kg). Considerando un margen neto histórico "
-        f"promedio de **{margen_medio:.1f}%** descontando flete desde `{df_hist['zona_agricola'].iloc[0]}`, "
-        "se recomienda programar contratos de transporte refrigerado y acopio antes de "
-        f"dicha ventana estacional, utilizando el piso de **${ic_inf:.2f} MXN/kg** como "
-        "precio mínimo de cobertura."
+        f"**Dictamen del Oráculo ({cultivo} — Origen `{df_hist['zona_agricola'].iloc[0]}`):** "
+        f"El modelo de series de tiempo proyecta el pico de demanda y **precio máximo** en "
+        f"**{mes_pico}** (**${precio_venta:.2f} MXN/kg**). **Tarifa AgroPulse:** compra al "
+        f"productor a **${precio_compra_prod:.2f} MXN/kg** y venta consolidada (ej. 4 productores "
+        f"× 100 kg = **400 kg** para Walmart / Empacadora San José) a **${precio_venta:.2f} MXN/kg**, "
+        f"optimizando el flete (${flete:.2f}/kg) con un margen de intermediación de **${spread_neto:.2f} MXN/kg**."
     )
+    if st.button("Ofrecer producto (Integrar mi lote de cosecha al Pool de 400 kg)"):
+        st.success(
+            f"Oferta registrada para **{cultivo}** en `{df_hist['zona_agricola'].iloc[0]}` "
+            f"con tarifa garantizada de compra de **${precio_compra_prod:.2f} MXN/kg**."
+        )
 
 
 def iniciar_tablero() -> None:

@@ -1,10 +1,47 @@
-# AgroPulse TDL — Observatorio de Inteligencia Agrocomercial y Riesgo Climático del Pacífico
+# AgroPulse TDL — Marketplace de Intermediación Inteligente y Oráculo Agrocomercial
 
 **Proyecto Integrador: Trusted Data Lab (TDL) | Ingeniería en Sistemas Computacionales / Ciencia de Datos — Semestre 7**
 
-**AgroPulse TDL** es un observatorio de datos auditado que integra series hidroclimáticas de las regiones agroproductoras de **Colima** (*Tecomán, Armería y Manzanillo*) con precios mayoristas, volatilidad y costos logísticos hacia cuatro **Centrales de Abasto** estratégicas de México (*CDMX-Iztapalapa, Guadalajara, Monterrey y Occidente*) para cuatro cultivos clave: **Limón Mexicano, Papaya Maradol, Plátano Chiapas y Aguacate Hass**.
+**AgroPulse TDL** es una plataforma de **intermediación comercial inteligente (*Brokerage*) y oráculo agrícola** respaldada por un observatorio de datos auditado en **Colima** (*Tecomán, Armería y Manzanillo*). El sistema conecta y consolida la producción de pequeños y medianos agricultores de **Limón Mexicano, Papaya Maradol, Plátano Chiapas y Aguacate Hass** con compradores corporativos y empacadoras regionales, eliminando el coyotaje tradicional mediante ciencia de datos e ingeniería geoespacial.
 
-Su propósito de negocio es erradicar la venta "a ciegas" ante intermediarios, permitiendo a productores, empacadoras y aseguradoras rurales proteger entre un **$12\%$ y un $25\%$ de margen comercial por embarque** con datos trazables y certificados.
+---
+
+## Modelo de Negocio: Marketplace de Intermediación Inteligente (*Brokerage*)
+
+### 1. El Sistema como Intermediario Central (Cero Suscripciones)
+* **Monetización por Margen de Intermediación (*Spread*):** **AgroPulse no cobra suscripciones ni membresías** a los agricultores. El negocio genera ingresos directamente del diferencial comercial en cada transacción ejecutada.
+* **Consolidación Inteligente de Oferta (*Pool* de Productores):** Los pequeños productores individuales suelen quedar fuera de los contratos corporativos por no alcanzar el volumen mínimo requerido. AgroPulse agrupa automáticamente la oferta atomizada (por ejemplo, **4 agricultores aportando 100 kg cada uno**) para surtir un pedido mayorista único de un comprador ancla en Colima (por ejemplo, **Walmart** o **Empacadora San José solicitando 400 kg**).
+* **Arbitraje Justo y Transparente:** El sistema compra en firme al productor a un **precio competitivo en origen** (superior al pago del coyote) y vende el lote consolidado al comprador corporativo a un **precio competitivo en destino**, reteniendo el diferencial neto tras optimizar el costo logístico.
+
+### 2. Propuesta de Valor para el Productor (Flujo de Oferta y Oráculo Agrícola)
+* **Botón Clave `"Ofrecer producto"`:** Interfaz directa donde el productor registra en segundos su cosecha disponible o proyectada (cultivo, kilogramos, ubicación de huerta y fecha de corte) para integrarse de inmediato a los bloques de venta activa.
+* **Oráculo Agrícola Prescriptivo:** Más allá de comercializar la cosecha actual, AgroPulse opera como un asesor basado en datos que recomienda al productor **qué sembrar, cuándo sembrar y dónde vender**, cruzando cuatro vectores críticos:
+  1. **Demanda local y regional proyectada** por comprador final.
+  2. **Tiempo fenológico de cosecha** modulado por el clima en tiempo real (temperatura, lluvia y evapotranspiración en Colima).
+  3. **Inversión requerida del productor** y costo de producción por kilogramo.
+  4. **Costos de transporte y merma** hacia cada nodo de consumo.
+
+```mermaid
+flowchart LR
+    P1["Productor 1 (100 kg)"] -->|"Botón: Ofrecer producto"| AP["AgroPulse TDL (Broker & Oráculo)"]
+    P2["Productor 2 (100 kg)"] -->|"Botón: Ofrecer producto"| AP
+    P3["Productor 3 (100 kg)"] -->|"Botón: Ofrecer producto"| AP
+    P4["Productor 4 (100 kg)"] -->|"Botón: Ofrecer producto"| AP
+    AP -->|"Lote Consolidado (400 kg) + Logística Optimizada"| C1["Comprador Ancla (Walmart / Empacadora San José)"]
+    AP -.->|"Recomendación: Qué, cuándo sembrar y tarifa compra/venta"| P1
+```
+
+---
+
+## Justificación Técnica y Mapeo Curricular (Trusted Data Lab)
+
+Cada componente matemático y de ingeniería del repositorio responde directamente a una decisión de dinero dentro del motor de *brokerage*:
+
+| Materia TDL | Docente | Entrega / Módulo | Función en el Motor de Negocio de AgroPulse |
+| :--- | :--- | :---: | :--- |
+| **Análisis Estadístico para Ciencia de Datos** | Mtro. Joel | **Entrega E1** (`laboratorio/E1_pronosticos.ipynb`) | **Motor de Tarifas y Demanda (ARIMA / Holt-Winters):** Los modelos de series de tiempo sobre 48 meses predicen los **picos de demanda** y calculan el **"precio máximo" esperado** (con intervalos de confianza al 95%) para dictaminar algorítmicamente la tarifa óptima de compra al productor y de venta al comprador final. |
+| **Ingeniería de Datos y Geoespacial** | Mtro. Román | **Entregas E0–E2** (`extractores/`, `pipeline/`) | **Cálculo Logístico por *Buckets* de Consumo:** El pipeline Medallion integra coordenadas de origen y calcula los **costos logísticos por distancia** entre las parcelas de los productores y el comprador final (*buckets* de consumo), optimizando la ruta de recolección y maximizando el margen neto del flete. |
+| **Calidad en los Sistemas de Información** | Mtra. Isis | **Entregas E0–E4** (`calidad/`, `tests/`, `.github/workflows/`) | **Certificación Sello TDL (IEEE 730 e ISO 25010/25012):** Garantiza disponibilidad operativa $\ge 95\%$ ($\text{MTBF}/\text{MTTR}$), validación estricta con `pandera` ($0\%$ borrado silencioso hacia `data/cuarentena/`) y seguridad continua (`pytest`, `ruff`, `gitleaks`, `pip-audit`). |
 
 ---
 
@@ -12,108 +49,83 @@ Su propósito de negocio es erradicar la venta "a ciegas" ante intermediarios, p
 
 | Integrante | Rol Principal | Responsabilidades Clave | Gobernanza PSP / Calidad |
 | :--- | :--- | :--- | :--- |
-| **Carlos Daniel Tintos Beltrán** | *Data Engineer* | Extracción ética multifuente (`ExtractorEtico`), almacén Medallion (`bronce` $\rightarrow$ `plata` $\rightarrow$ `oro` + `cuarentena`), automatización GitHub Actions y contratos `pandera`. | Bitácoras [`defectos-carlos.csv`](calidad/defectos-carlos.csv) y [`tiempo-carlos.csv`](calidad/tiempo-carlos.csv) (*Quality Lead* en E1 y E3) |
-| **Oliver Vargas García** | *Data Statistician* | Pronósticos de Series de Tiempo (E1), Diseño de Experimentos Factorial $2^3$ y $2^{4-1}$ (E2), Estadística Multivariada PCA + MANOVA (E3) y validación con usuarios. | Bitácoras [`defectos-oliver.csv`](calidad/defectos-oliver.csv) y [`tiempo-oliver.csv`](calidad/tiempo-oliver.csv) (*Quality Lead* en E0 y E2) |
+| **Carlos Daniel Tintos Beltrán** | *Data Engineer* | Extracción ética multifuente (`ExtractorEtico`), almacén Medallion (`bronce` $\rightarrow$ `plata` $\rightarrow$ `oro` + `cuarentena`), cálculo logístico, CI/CD y contratos `pandera`. | Bitácoras [`defectos-carlos.csv`](calidad/defectos-carlos.csv) y [`tiempo-carlos.csv`](calidad/tiempo-carlos.csv) (*Quality Lead* en E1 y E3) |
+| **Oliver Vargas García** | *Data Statistician* | Modelos de Series de Tiempo ARIMA/Holt-Winters para fijación de tarifas (E1), Diseño Experimental Factorial $2^3/2^{4-1}$ (E2) y Análisis Multivariado PCA + MANOVA (E3). | Bitácoras [`defectos-oliver.csv`](calidad/defectos-oliver.csv) y [`tiempo-oliver.csv`](calidad/tiempo-oliver.csv) (*Quality Lead* en E0 y E2) |
 
 ---
 
-## Integración Curricular en un Solo Producto
+## Arquitectura de la Solución (Medallion + Clean Code)
 
-| Materia | Docente | Eje TDL | Entregables Técnicos en el Repositorio |
-| :--- | :--- | :---: | :--- |
-| **Ingeniería de Datos** | Mtro. Román | *OBTENER* | Extractores éticos (`Open-Meteo API` + `SNIIM Web`), workflow diario en GitHub Actions y almacén Medallion. |
-| **Análisis Estadístico para Ciencia de Datos** | Mtro. Joel | *DEMOSTRAR* | Series históricas de **48 meses** (`2022-11` a `2026-10`) listas para Series de Tiempo, Diseño Factorial y PCA/MANOVA. |
-| **Calidad en los Sistemas de Información** | Mtra. Isis | *CERTIFICAR* | Disciplina PSP individual, bitácora activa para MTBF/MTTR/Disponibilidad, `pytest`, `ruff` y estándares ISO 25010/25012. |
-
----
-
-## Arquitectura Medallion y Estructura del Repositorio
-
-El proyecto aplica **Arquitectura Modular por Capas + Clean Code** (funciones con responsabilidad única $\le 30$ líneas, tipado explícito, cero rutas hardcodeadas fuera de [`config.py`](config.py) y política estricta de **Cero Datos Personales**):
+El sistema implementa una arquitectura modular desacoplada (funciones con responsabilidad única $\le 30$ líneas, tipado explícito, rutas centralizadas en [`config.py`](config.py) y cumplimiento estricto de **Cero Datos Personales** bajo la LFPDPPP):
 
 ```text
 tdl-agropulse/
-├── README.md                          # Documentación general e instrucciones reproducibles
-├── requirements.txt                   # Dependencias limpias del entorno Python
-├── config.py                          # Rutas centralizadas (pathlib.Path), coordenadas y constantes
+├── README.md                          # Visión ejecutiva del Marketplace, arquitectura y guía de uso
+├── requirements.txt                   # Dependencias auditadas con pip-audit
+├── config.py                          # Rutas Medallion, coordenadas agroproductoras y constantes
 ├── docs/
-│   └── E0/
-│       ├── ENTREGA.md                 # Ficha ejecutiva y matriz de evidencias de la rúbrica E0
-│       └── propuesta.md               # Propuesta formal (ficha, entrevista, preguntas E1-E3, ética y calidad)
+│   ├── plan-sqa.md                    # Plan de Aseguramiento de Calidad bajo norma IEEE 730 (E1)
+│   ├── relatoria-E1.md                # Relatoría técnica E1 (evolución de datos, ARIMA/HW y MTBF/MTTR)
+│   ├── E0/                            # ENTREGA.md y propuesta.md (Arranque)
+│   └── E1/                            # ENTREGA.md (Puerta de calidad, pronósticos y CI/CD)
 ├── calidad/
 │   ├── defectos-carlos.csv            # Registro PSP de defectos - Carlos Tintos
 │   ├── defectos-oliver.csv            # Registro PSP de defectos - Oliver Vargas
 │   ├── tiempo-carlos.csv              # Registro PSP de tiempos - Carlos Tintos
 │   ├── tiempo-oliver.csv              # Registro PSP de tiempos - Oliver Vargas
-│   └── bitacora_captura.csv           # Bitácora automática de ejecuciones (insumo MTBF/MTTR)
+│   └── bitacora_captura.csv           # Telemetría automática de ejecuciones (MTBF, MTTR y Disponibilidad)
 ├── extractores/
-│   ├── base.py                        # Clase oficial ExtractorEtico + registrar_ejecucion_bitacora()
-│   ├── extractor_api_clima.py         # Fuente 1: API Open-Meteo (48 meses + captura diaria Colima)
-│   ├── extractor_web_precios.py       # Fuente 2: Web scraping ético SNIIM (48 meses, 768 filas + diario)
-│   └── ejecutar_captura.py            # Orquestador y validador de Capa Bronce
+│   ├── base.py                        # Clase ExtractorEtico (robots.txt, pausa 1.5s, backoff) + bitácora
+│   ├── extractor_api_clima.py         # Fuente 1: API Open-Meteo (48 meses + diario en Tecomán, Armería, Manzanillo)
+│   ├── extractor_web_precios.py       # Fuente 2: Scraping ético SNIIM (48 meses, 768 registros + diario)
+│   └── ejecutar_captura.py            # Orquestador de captura hacia Capa Bronce
+├── pipeline/
+│   ├── puerta_calidad.py              # Validación Pandera (Bronce -> Plata y Cuarentena sin borrado silencioso)
+│   ├── limpieza.py                    # Diagnóstico MCAR/MAR, imputación, IQR, Min-Max y discretización
+│   ├── integracion.py                 # Cruce relacional Precios + Clima + Costos logísticos hacia Capa Oro
+│   └── orquestador_e1.py              # Ejecutor integral del pipeline Medallion E1
 ├── data/
-│   ├── bronce/                        # Datos crudos con metadatos fecha_captura y fuente_origen
-│   ├── plata/                         # Datos limpios, tipados e integrados (E1+)
-│   ├── oro/                           # Tablas analíticas listas para modelado y tablero (E1+)
-│   └── cuarentena/                    # Registros rechazados con motivo explícito, 0% borrado silencioso (E1+)
-├── pipeline/                          # Transformaciones Medallion y puertas de calidad (E1+)
-├── laboratorio/                       # Notebooks reproducibles de Análisis Estadístico (E1-E3)
-├── tablero/                           # Observatorio público interactivo en Streamlit (E1-E4)
+│   ├── bronce/                        # Datos crudos con fecha_captura y fuente_origen (>= 48 periodos)
+│   ├── plata/                         # Datos validados, limpios y normalizados
+│   ├── oro/                           # dataset_analitico.csv y diccionario_datos.md (100% completitud)
+│   └── cuarentena/                    # Registros rechazados con motivo_rechazo explícito
+├── laboratorio/
+│   └── E1_pronosticos.ipynb           # Modelos SES, Holt, Holt-Winters y ARIMA para fijación de tarifas
+├── tablero/
+│   └── app.py                         # Plataforma interactiva en Streamlit (Oráculo y pronósticos con IC 95%)
 ├── tests/
-│   └── test_extractores.py            # Suite de pruebas unitarias con pytest
+│   ├── test_extractores.py            # Pruebas unitarias de extracción y cardinalidad (>= 48 meses)
+│   └── test_pipeline_e1.py            # Pruebas de puerta de calidad Pandera, cuarentena y Capa Oro
 └── .github/
     └── workflows/
-        └── captura_diaria.yml         # Ejecución automática diaria (08:00 UTC) y commit a Bronce
+        ├── captura_diaria.yml         # Cron diario (08:00 UTC) de captura y procesamiento Medallion
+        └── ci_cd.yml                  # Integración Continua (pytest + ruff + gitleaks + pip-audit)
 ```
-
----
-
-## Inventario de Datos Activos en Capa Bronce (Etapa E0)
-
-| Archivo en `data/bronce/` | Fuente | Granularidad | Cobertura / Volumen | Variables Principales |
-| :--- | :--- | :--- | :--- | :--- |
-| [`clima_historico_mensual.csv`](data/bronce/clima_historico_mensual.csv) | Open-Meteo Archive API | Mensual por zona | **48 periodos** (`2022-11` a `2026-10`, $144$ registros) | Temp. máxima, Temp. media, Precipitación acumulada, Evapotranspiración y Humedad relativa en Tecomán, Armería y Manzanillo. |
-| [`clima_captura_diaria.csv`](data/bronce/clima_captura_diaria.csv) | Open-Meteo Forecast API | Diaria por zona | Ventana móvil acumulativa diaria | Variables hidroclimáticas diarias + `fecha_captura` y `fuente_origen`. |
-| [`precios_agro_historico_mensual.csv`](data/bronce/precios_agro_historico_mensual.csv) | Portal SNIIM (`ExtractorEtico`) | Mensual por cultivo y central | **48 periodos** (`2022-11` a `2026-10`, $768$ registros) | Precio mayorista ($\text{MXN/kg}$), Volatilidad mensual ($\%$), Costo logístico y Margen comercial ($4$ cultivos $\times 4$ centrales). |
-| [`precios_captura_diaria.csv`](data/bronce/precios_captura_diaria.csv) | Portal SNIIM (`ExtractorEtico`) | Diaria por cultivo y central | Corte diario acumulativo ($16$ registros/día) | Cotización mayorista diaria, flete estimado, margen y metadatos de captura. |
 
 ---
 
 ## Instalación y Ejecución Reproducible
 
-### 1. Preparar el entorno virtual e instalar dependencias
-
 ```bash
-python -m venv .venv
-# En Windows (PowerShell):
-.\.venv\Scripts\Activate.ps1
-# En Linux / macOS:
-# source .venv/bin/activate
-
+# 1. Instalar dependencias del proyecto
 pip install -r requirements.txt
-```
 
-### 2. Ejecutar la captura multifuente hacia Capa Bronce
-
-```bash
+# 2. Ejecutar captura hacia Capa Bronce y Pipeline Medallion E1 (Plata, Cuarentena y Oro)
 python -m extractores.ejecutar_captura
-```
+python -m pipeline.orquestador_e1
 
-Este comando ejecuta en orden los extractores de clima y precios, verifica que ambas fuentes cuenten con al menos **48 periodos históricos** (superando el requisito mínimo de $36$ periodos de la rúbrica), actualiza los cuatro archivos en `data/bronce/` y registra la telemetría de ejecución en [`calidad/bitacora_captura.csv`](calidad/bitacora_captura.csv).
-
-### 3. Ejecutar pruebas unitarias y auditoría de estilo
-
-```bash
+# 3. Validar estilo, pruebas unitarias y seguridad de dependencias
 ruff check .
-pytest -v
+pytest tests/ -v
+pip-audit --skip-editable
+
+# 4. Iniciar la plataforma interactiva en Streamlit
+streamlit run tablero/app.py
 ```
 
 ---
 
-## Navegación Rápida de Entregables
+## Navegación de Entregables Oficiales
 
-* **Entrega activa (`E0 - Arranque`):**
-  * [Ficha de Entrega y Rúbrica E0 (`docs/E0/ENTREGA.md`)](docs/E0/ENTREGA.md)
-  * [Propuesta Extensa del Observatorio (`docs/E0/propuesta.md`)](docs/E0/propuesta.md)
-* **Tablero Público (Streamlit Cloud):** *En preparación para despliegue continuo en etapas E1–E4 (`tablero/app.py`).*
-
+* **Entrega E0 (Arranque):** [Ficha E0 (`docs/E0/ENTREGA.md`)](docs/E0/ENTREGA.md) | [Propuesta del Observatorio y Modelo de Brokerage (`docs/E0/propuesta.md`)](docs/E0/propuesta.md)
+* **Entrega E1 (Pipeline, Pronósticos y SQA):** [Ficha E1 (`docs/E1/ENTREGA.md`)](docs/E1/ENTREGA.md) | [Plan SQA IEEE 730 (`docs/plan-sqa.md`)](docs/plan-sqa.md) | [Relatoría E1 (`docs/relatoria-E1.md`)](docs/relatoria-E1.md) | [Notebook de Pronósticos (`laboratorio/E1_pronosticos.ipynb`)](laboratorio/E1_pronosticos.ipynb)
