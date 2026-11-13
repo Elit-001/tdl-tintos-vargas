@@ -20,3 +20,6 @@ Thumbs.db
 subir_*.sh
 
 contexto_ia/
+contexto_ia/
+__pycache__/
+.pytest_cache/
