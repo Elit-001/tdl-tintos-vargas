@@ -28,7 +28,7 @@ from config import (
     ZONA_HORARIA_LOCAL,
     ZONAS_AGRICOLAS_COLIMA,
 )
-from extractores.base import registrar_ejecucion_bitacora
+from extractores.base import ExtractorEtico, registrar_ejecucion_bitacora
 
 
 def consultar_json_clima(
@@ -162,10 +162,12 @@ def consolidar_csv_diario(df_nuevo: pd.DataFrame, ruta_csv: Path) -> pd.DataFram
 def guardar_archivos_clima(
     df_mensual: pd.DataFrame, df_diario: pd.DataFrame
 ) -> dict[str, int]:
-    """Persiste los DataFrames climáticos en Capa Bronce y devuelve el conteo."""
+    """Persiste los DataFrames climáticos en Capa Bronce junto con sus fichas .meta.json."""
     DATA_BRONCE.mkdir(parents=True, exist_ok=True)
     df_mensual.to_csv(ARCHIVO_CLIMA_MENSUAL, index=False, encoding="utf-8")
+    ExtractorEtico.generar_ficha_meta(ARCHIVO_CLIMA_MENSUAL, "open_meteo_archive_api")
     df_diario.to_csv(ARCHIVO_CLIMA_DIARIO, index=False, encoding="utf-8")
+    ExtractorEtico.generar_ficha_meta(ARCHIVO_CLIMA_DIARIO, "open_meteo_forecast_api")
     return {"mensuales": len(df_mensual), "diarios": len(df_diario)}
 
 

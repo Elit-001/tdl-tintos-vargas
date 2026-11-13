@@ -1,0 +1,9 @@
+{
+  "archivo": "clima_captura_diaria.csv",
+  "ruta_relativa": "data/bronce/clima_captura_diaria.csv",
+  "algoritmo_hash": "SHA-256",
+  "hash_sha256": "b16357b1a0bb5d620f6c1132d7e7c58b3c8fc91b34a04d758b00fdeea1802231",
+  "tamano_bytes": 4064,
+  "timestamp_captura": "2026-11-13T20:08:21.520629+00:00",
+  "fuente_origen": "capa_bronce_agropulse"
+}

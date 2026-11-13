@@ -1,0 +1,9 @@
+{
+  "archivo": "clima_historico_mensual.csv",
+  "ruta_relativa": "data/bronce/clima_historico_mensual.csv",
+  "algoritmo_hash": "SHA-256",
+  "hash_sha256": "02ccbe91996695202d755ea804a88091905b0abc50b1fb5e0c46d43f3fcd3430",
+  "tamano_bytes": 14014,
+  "timestamp_captura": "2026-11-13T20:08:21.533747+00:00",
+  "fuente_origen": "capa_bronce_agropulse"
+}

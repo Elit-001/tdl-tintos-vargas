@@ -1,0 +1,9 @@
+{
+  "archivo": "precios_agro_historico_mensual.csv",
+  "ruta_relativa": "data/bronce/precios_agro_historico_mensual.csv",
+  "algoritmo_hash": "SHA-256",
+  "hash_sha256": "edee3f3dc9b1ffaf408e8ea0febd28865539bcc2d710c2bbe48daa5efb81e0f5",
+  "tamano_bytes": 94692,
+  "timestamp_captura": "2026-11-13T20:08:21.558242+00:00",
+  "fuente_origen": "capa_bronce_agropulse"
+}

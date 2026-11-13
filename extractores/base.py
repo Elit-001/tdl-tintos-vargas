@@ -6,7 +6,10 @@ en SI (bitácora automática para cálculo de MTBF, MTTR y Disponibilidad).
 """
 
 import csv
+import hashlib
+import json
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urljoin
 from urllib.robotparser import RobotFileParser
@@ -15,6 +18,7 @@ import requests
 
 from config import (
     COLUMNAS_BITACORA,
+    DATA_BRONCE,
     MAX_REINTENTOS_HTTP,
     PAUSA_MINIMA_SEGUNDOS,
     RUTA_BITACORA,
@@ -93,6 +97,51 @@ class ExtractorEtico:
         raise ConnectionError(
             f"Fallo tras {max_reintentos} intentos en {url}: {ultimo_error}"
         )
+
+    @staticmethod
+    def calcular_hash_sha256(ruta_archivo: Path) -> str:
+        """Calcula el resumen criptográfico SHA-256 del contenido binario de un archivo."""
+        hasher = hashlib.sha256()
+        hasher.update(ruta_archivo.read_bytes())
+        return hasher.hexdigest()
+
+    @classmethod
+    def generar_ficha_meta(
+        cls, ruta_archivo: Path, fuente_origen: str = "capa_bronce_agropulse"
+    ) -> Path:
+        """Genera el archivo <archivo>.meta.json con hash SHA-256 y timestamp de captura."""
+        hash_sha256 = cls.calcular_hash_sha256(ruta_archivo)
+        ruta_meta = ruta_archivo.with_name(f"{ruta_archivo.name}.meta.json")
+        metadatos = {
+            "archivo": ruta_archivo.name,
+            "ruta_relativa": f"data/bronce/{ruta_archivo.name}",
+            "algoritmo_hash": "SHA-256",
+            "hash_sha256": hash_sha256,
+            "tamano_bytes": ruta_archivo.stat().st_size,
+            "timestamp_captura": datetime.now(UTC).isoformat(),
+            "fuente_origen": fuente_origen,
+        }
+        ruta_meta.write_text(
+            json.dumps(metadatos, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        return ruta_meta
+
+
+def generar_ficha_meta_sha256(
+    ruta_archivo: Path, fuente_origen: str = "capa_bronce_agropulse"
+) -> Path:
+    """Función auxiliar que delega en ExtractorEtico la creación de la ficha .meta.json."""
+    return ExtractorEtico.generar_ficha_meta(ruta_archivo, fuente_origen=fuente_origen)
+
+
+def generar_metas_capa_bronce(directorio_bronce: Path = DATA_BRONCE) -> list[Path]:
+    """Calcula y genera fichas .meta.json para todos los archivos CSV en data/bronce/."""
+    fichas_generadas: list[Path] = []
+    for ruta_csv in sorted(directorio_bronce.glob("*.csv")):
+        ficha = ExtractorEtico.generar_ficha_meta(ruta_csv)
+        fichas_generadas.append(ficha)
+    return fichas_generadas
 
 
 def registrar_ejecucion_bitacora(

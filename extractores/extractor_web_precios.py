@@ -204,12 +204,14 @@ def generar_captura_diaria_precios(
 
 
 def guardar_archivos_precios(
-    df_mensual: pd.DataFrame, df_diario: pd.DataFrame
+    df_mensual: pd.DataFrame, df_diario: pd.DataFrame, fuente_origen: str = "sniim_web"
 ) -> dict[str, int]:
-    """Escribe los archivos de precios en Capa Bronce y devuelve el conteo de filas."""
+    """Escribe los archivos de precios en Capa Bronce junto con sus fichas .meta.json."""
     DATA_BRONCE.mkdir(parents=True, exist_ok=True)
     df_mensual.to_csv(ARCHIVO_PRECIOS_MENSUAL, index=False, encoding="utf-8")
+    ExtractorEtico.generar_ficha_meta(ARCHIVO_PRECIOS_MENSUAL, fuente_origen)
     df_diario.to_csv(ARCHIVO_PRECIOS_DIARIO, index=False, encoding="utf-8")
+    ExtractorEtico.generar_ficha_meta(ARCHIVO_PRECIOS_DIARIO, fuente_origen)
     return {"mensuales": len(df_mensual), "diarios": len(df_diario)}
 
 
@@ -222,7 +224,7 @@ def ejecutar_extractor_precios() -> dict[str, int]:
         catalogo, fuente = consultar_portal_sniim()
         df_mensual = generar_historico_mensual_precios(catalogo, fuente, fecha_hoy)
         df_diario = generar_captura_diaria_precios(catalogo, fuente, fecha_hoy)
-        conteo = guardar_archivos_precios(df_mensual, df_diario)
+        conteo = guardar_archivos_precios(df_mensual, df_diario, fuente)
         total = conteo["mensuales"] + conteo["diarios"]
         ts_fin = datetime.now(UTC).isoformat()
         duracion = time.perf_counter() - inicio
