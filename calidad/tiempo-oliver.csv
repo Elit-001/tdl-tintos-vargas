@@ -5,4 +5,7 @@ fecha,inicio,fin,interrupcion_min,fase,actividad
 2026-11-05,17:00,19:30,15,Codificación,Calibracion estadistica de parametros estacionales costos logisticos y volatilidad para 4 cultivos y 4 centrales
 2026-11-06,10:00,12:30,10,Pruebas,Escritura de pruebas de esquema y cardinalidad de 48 periodos en tests/test_extractores.py
 2026-11-06,16:00,18:20,10,Postmortem,Redaccion final de propuesta.md definicion de metas de calidad medibles y revision cruzada PSP de E0
-
+2026-11-08,16:30,19:00,10,Diseño,Especificacion del Plan SQA bajo estandar IEEE 730 en docs/plan-sqa.md y diseno experimental del notebook E1
+2026-11-09,16:00,19:20,15,Codificación,Desarrollo de laboratorio/E1_pronosticos.ipynb con descomposicion STL prueba ADF graficas ACF/PACF y 4 modelos
+2026-11-09,19:30,21:15,5,Pruebas,Evaluacion comparativa con MAE RMSE y MAPE diagnostico de residuos Ljung-Box y seleccion del modelo ganador
+2026-11-10,09:30,11:50,10,Postmortem,Calculo de MTBF MTTR y Disponibilidad redactando docs/relatoria-E1.md y docs/E1/ENTREGA.md

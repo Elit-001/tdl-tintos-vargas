@@ -3,4 +3,7 @@ numero,fecha,tipo,fase_introducido,fase_eliminado,minutos_correccion,defecto_ori
 2,2026-11-04,70-Datos,Diseño,Codificación,25,N/A,Desfase de fase estacional en el modelo base de Limon Mexicano ubicaba el pico de precio en verano en vez de invierno-Cuaresma
 3,2026-11-05,80-Funcion,Codificación,Pruebas,19,N/A,Calculo del margen comercial porcentual dividia sobre costo de origen en lugar de precio mayorista distorsionando la comparabilidad entre centrales
 4,2026-11-06,60-Chequeo,Pruebas,Pruebas,11,N/A,Asercion en test_extractores validaba igualdad exacta a 36 periodos en vez de operador mayor estricto para la serie de 48 meses
-
+5,2026-11-08,70-Datos,Codificación,Pruebas,17,N/A,Indice temporal en E1_pronosticos.ipynb carecia de frecuencia explicita MS causando advertencia ValueWarning en statsmodels
+6,2026-11-09,80-Funcion,Codificación,Pruebas,21,N/A,Parametro lags=24 en acf y pacf excedia el limite del 50 por ciento de la muestra diferenciada; se ajusto a nlags=18
+7,2026-11-09,40-Asignacion,Codificación,Revisión,13,N/A,Calculo de MAPE dividia sobre el vector predicho en lugar del valor real observado en el conjunto de prueba de 6 meses
+8,2026-11-10,10-Documentacion,Postmortem,Revisión,10,N/A,Enlace relativo hacia diccionario_datos.md en docs/E1/ENTREGA.md omitia un nivel de directorio superior
