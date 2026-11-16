@@ -2,8 +2,8 @@
   "archivo": "clima_historico_mensual.csv",
   "ruta_relativa": "data/bronce/clima_historico_mensual.csv",
   "algoritmo_hash": "SHA-256",
-  "hash_sha256": "b322f8fbc7f06fd6bb92f809eb2265cd10b66fe8b549d95cb22bf3bde987919a",
+  "hash_sha256": "4bdcacd738c02175e7da3010d699f9d757fffca6c565cce982d59efa445e0fb1",
   "tamano_bytes": 13869,
-  "timestamp_captura": "2026-11-15T15:26:07.335164+00:00",
+  "timestamp_captura": "2026-11-16T18:01:02.260283+00:00",
   "fuente_origen": "open_meteo_archive_api"
 }
