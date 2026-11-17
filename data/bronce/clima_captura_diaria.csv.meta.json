@@ -2,8 +2,8 @@
   "archivo": "clima_captura_diaria.csv",
   "ruta_relativa": "data/bronce/clima_captura_diaria.csv",
   "algoritmo_hash": "SHA-256",
-  "hash_sha256": "0ab9455f5e8f691183129360e81ddda7640420c6845396b7366650f473a86dd8",
-  "tamano_bytes": 4844,
-  "timestamp_captura": "2026-11-16T18:01:02.261290+00:00",
+  "hash_sha256": "144c80d46b42f8c1a7f3f1b54eb1649ed3b4d31bdeca633db33186b0a9e88d38",
+  "tamano_bytes": 5119,
+  "timestamp_captura": "2026-11-17T17:27:11.346420+00:00",
   "fuente_origen": "open_meteo_forecast_api"
 }
