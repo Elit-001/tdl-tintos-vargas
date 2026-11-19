@@ -126,7 +126,9 @@ def guardar_nodos_geoespaciales(
 ) -> dict[str, int]:
     """Persiste los nodos geoespaciales en Bronce y genera su ficha .meta.json SHA-256."""
     DATA_BRONCE.mkdir(parents=True, exist_ok=True)
-    df_nodos.to_csv(ARCHIVO_GEOESPACIAL_NODOS, index=False, encoding="utf-8")
+    df_nodos.to_csv(
+        ARCHIVO_GEOESPACIAL_NODOS, index=False, encoding="utf-8", lineterminator="\n"
+    )
     ExtractorEtico.generar_ficha_meta(ARCHIVO_GEOESPACIAL_NODOS, fuente_origen)
     n_prod = int((df_nodos["tipo_nodo"] == "PRODUCTOR_ORIGEN").sum())
     n_comp = int((df_nodos["tipo_nodo"] == "COMPRADOR_ANCLA").sum())

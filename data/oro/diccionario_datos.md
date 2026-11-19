@@ -43,12 +43,12 @@
 | `precipitacion_acumulada_mm_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.23) | Indicador o atributo (precipitacion_acumulada_mm_norm) |
 | `evapotranspiracion_mm_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.44) | Indicador o atributo (evapotranspiracion_mm_norm) |
 | `humedad_relativa_pct_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.51) | Indicador o atributo (humedad_relativa_pct_norm) |
-| `linaje_sha256_clima_bronce` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: b17c7f7d91de55a2c76205c0411987ac6889ba43344b50b13d33c71b880d3cae | Indicador o atributo (linaje_sha256_clima_bronce) |
+| `linaje_sha256_clima_bronce` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: eac5c472f8a60ecfc07b931765a81000fc5d6268e861c687a31a287fcb900755 | Indicador o atributo (linaje_sha256_clima_bronce) |
 | `linaje_id_registro` | `object` | Identificador único | 100.0% | Valores: ORO-ANL-00001, ORO-ANL-00002, ORO-ANL-00003 | ID determinista del registro en Oro |
 | `linaje_archivo_bronce` | `object` | Nombre de archivo | 100.0% | Valores: precios_agro_historico_mensual.csv | Archivo origen en data/bronce/ |
-| `linaje_sha256_bronce` | `object` | Hash SHA-256 (64 hex) | 100.0% | Valores: 16c47638f8438a2076359179436541f8f0fada649d5e47f95488f6b84ee271bf | Firma criptográfica desde .meta.json |
-| `linaje_fecha_ingesta_utc` | `object` | ISO-8601 UTC | 100.0% | Valores: 2026-11-19T14:59:41.859224+00:00 | Timestamp de captura en Capa Bronce |
-| `linaje_fuente` | `object` | Texto identificador | 100.0% | Valores: sniim_web_verificado | Fuente de extracción verificada |
+| `linaje_sha256_bronce` | `object` | Hash SHA-256 (64 hex) | 100.0% | Valores: 558e2fa0b2fba4c2ee501273857c2f9b90aaa7d3a9d72a5804e13b3458c4db4b | Firma criptográfica desde .meta.json |
+| `linaje_fecha_ingesta_utc` | `object` | ISO-8601 UTC | 100.0% | Valores: 2026-11-19T15:23:49.427979+00:00 | Timestamp de captura en Capa Bronce |
+| `linaje_fuente` | `object` | Texto identificador | 100.0% | Valores: capa_bronce_agropulse | Fuente de extracción verificada |
 
 ## 2. Tabla Geoespacial y Logística (E2): `rutas_flete_colima.csv`
 
@@ -78,6 +78,6 @@
 | `es_ruta_optima` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador o atributo (es_ruta_optima) |
 | `linaje_id_registro` | `object` | Identificador único | 100.0% | Valores: GEO-E2-00001, GEO-E2-00002, GEO-E2-00003 | ID determinista del registro en Oro |
 | `linaje_archivo_bronce` | `object` | Nombre de archivo | 100.0% | Valores: nodos_geoespaciales_colima.csv | Archivo origen en data/bronce/ |
-| `linaje_sha256_bronce` | `object` | Hash SHA-256 (64 hex) | 100.0% | Valores: 5b4788db6aaccec84be1a0798b21aa12983eaa327c9617f005b1e76cf203b1a0 | Firma criptográfica desde .meta.json |
-| `linaje_fecha_ingesta_utc` | `object` | ISO-8601 UTC | 100.0% | Valores: 2026-11-19T14:59:38.476979+00:00 | Timestamp de captura en Capa Bronce |
-| `linaje_fuente` | `object` | Texto identificador | 100.0% | Valores: osm_catalogo_referencia_colima | Fuente de extracción verificada |
+| `linaje_sha256_bronce` | `object` | Hash SHA-256 (64 hex) | 100.0% | Valores: d22df26a64995b4951c07a2adb9a7b96e264f2890e8bc14422803e32a9cf741d | Firma criptográfica desde .meta.json |
+| `linaje_fecha_ingesta_utc` | `object` | ISO-8601 UTC | 100.0% | Valores: 2026-11-19T15:23:49.412756+00:00 | Timestamp de captura en Capa Bronce |
+| `linaje_fuente` | `object` | Texto identificador | 100.0% | Valores: capa_bronce_agropulse | Fuente de extracción verificada |

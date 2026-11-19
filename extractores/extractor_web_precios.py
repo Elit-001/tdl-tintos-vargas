@@ -208,9 +208,13 @@ def guardar_archivos_precios(
 ) -> dict[str, int]:
     """Escribe los archivos de precios en Capa Bronce junto con sus fichas .meta.json."""
     DATA_BRONCE.mkdir(parents=True, exist_ok=True)
-    df_mensual.to_csv(ARCHIVO_PRECIOS_MENSUAL, index=False, encoding="utf-8")
+    df_mensual.to_csv(
+        ARCHIVO_PRECIOS_MENSUAL, index=False, encoding="utf-8", lineterminator="\n"
+    )
     ExtractorEtico.generar_ficha_meta(ARCHIVO_PRECIOS_MENSUAL, fuente_origen)
-    df_diario.to_csv(ARCHIVO_PRECIOS_DIARIO, index=False, encoding="utf-8")
+    df_diario.to_csv(
+        ARCHIVO_PRECIOS_DIARIO, index=False, encoding="utf-8", lineterminator="\n"
+    )
     ExtractorEtico.generar_ficha_meta(ARCHIVO_PRECIOS_DIARIO, fuente_origen)
     return {"mensuales": len(df_mensual), "diarios": len(df_diario)}
 

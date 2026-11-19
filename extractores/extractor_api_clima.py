@@ -164,9 +164,13 @@ def guardar_archivos_clima(
 ) -> dict[str, int]:
     """Persiste los DataFrames climáticos en Capa Bronce junto con sus fichas .meta.json."""
     DATA_BRONCE.mkdir(parents=True, exist_ok=True)
-    df_mensual.to_csv(ARCHIVO_CLIMA_MENSUAL, index=False, encoding="utf-8")
+    df_mensual.to_csv(
+        ARCHIVO_CLIMA_MENSUAL, index=False, encoding="utf-8", lineterminator="\n"
+    )
     ExtractorEtico.generar_ficha_meta(ARCHIVO_CLIMA_MENSUAL, "open_meteo_archive_api")
-    df_diario.to_csv(ARCHIVO_CLIMA_DIARIO, index=False, encoding="utf-8")
+    df_diario.to_csv(
+        ARCHIVO_CLIMA_DIARIO, index=False, encoding="utf-8", lineterminator="\n"
+    )
     ExtractorEtico.generar_ficha_meta(ARCHIVO_CLIMA_DIARIO, "open_meteo_forecast_api")
     return {"mensuales": len(df_mensual), "diarios": len(df_diario)}
 

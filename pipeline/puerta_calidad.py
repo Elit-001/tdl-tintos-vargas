@@ -138,8 +138,10 @@ def procesar_archivo_bronce(
     DATA_CUARENTENA.mkdir(parents=True, exist_ok=True)
     df_bronce = pd.read_csv(ruta_bronce)
     df_plata, df_cuarentena = validar_lote_bronce(df_bronce, esquema)
-    df_plata.to_csv(ruta_plata, index=False, encoding="utf-8")
-    df_cuarentena.to_csv(ruta_cuarentena, index=False, encoding="utf-8")
+    df_plata.to_csv(ruta_plata, index=False, encoding="utf-8", lineterminator="\n")
+    df_cuarentena.to_csv(
+        ruta_cuarentena, index=False, encoding="utf-8", lineterminator="\n"
+    )
     return {
         "bronce": len(df_bronce),
         "plata": len(df_plata),

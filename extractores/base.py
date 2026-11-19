@@ -100,16 +100,19 @@ class ExtractorEtico:
 
     @staticmethod
     def calcular_hash_sha256(ruta_archivo: Path) -> str:
-        """Calcula el resumen criptográfico SHA-256 del contenido binario de un archivo."""
+        """Calcula el hash SHA-256 normalizando saltos de línea a LF (multi-OS)."""
+        contenido_lf = ruta_archivo.read_bytes().replace(b"\r\n", b"\n")
         hasher = hashlib.sha256()
-        hasher.update(ruta_archivo.read_bytes())
+        hasher.update(contenido_lf)
         return hasher.hexdigest()
 
     @classmethod
     def generar_ficha_meta(
         cls, ruta_archivo: Path, fuente_origen: str = "capa_bronce_agropulse"
     ) -> Path:
-        """Genera el archivo <archivo>.meta.json con hash SHA-256 y timestamp de captura."""
+        """Normaliza el archivo a LF y genera <archivo>.meta.json con hash SHA-256."""
+        contenido_lf = ruta_archivo.read_bytes().replace(b"\r\n", b"\n")
+        ruta_archivo.write_bytes(contenido_lf)
         hash_sha256 = cls.calcular_hash_sha256(ruta_archivo)
         ruta_meta = ruta_archivo.with_name(f"{ruta_archivo.name}.meta.json")
         metadatos = {
@@ -117,13 +120,14 @@ class ExtractorEtico:
             "ruta_relativa": f"data/bronce/{ruta_archivo.name}",
             "algoritmo_hash": "SHA-256",
             "hash_sha256": hash_sha256,
-            "tamano_bytes": ruta_archivo.stat().st_size,
+            "tamano_bytes": len(contenido_lf),
             "timestamp_captura": datetime.now(UTC).isoformat(),
             "fuente_origen": fuente_origen,
         }
         ruta_meta.write_text(
             json.dumps(metadatos, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
+            newline="\n",
         )
         return ruta_meta
 

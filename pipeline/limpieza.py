@@ -126,7 +126,9 @@ def ejecutar_limpieza_plata() -> dict[str, int]:
         df_clima, COLUMNAS_NUMERICAS_CLIMA, "zona_agricola"
     )
     df_clima = normalizar_min_max(df_clima, COLUMNAS_NUMERICAS_CLIMA, "zona_agricola")
-    df_clima.to_csv(ARCHIVO_PLATA_CLIMA_LIMPIO, index=False, encoding="utf-8")
+    df_clima.to_csv(
+        ARCHIVO_PLATA_CLIMA_LIMPIO, index=False, encoding="utf-8", lineterminator="\n"
+    )
 
     diagnosticar_mecanismo_nulos(df_precios, COLUMNAS_NUMERICAS_PRECIOS)
     df_precios = imputar_nulos_por_grupo(
@@ -137,7 +139,9 @@ def ejecutar_limpieza_plata() -> dict[str, int]:
     )
     df_precios = normalizar_min_max(df_precios, COLUMNAS_NUMERICAS_PRECIOS, "cultivo")
     df_precios = discretizar_precios_y_riesgo(df_precios)
-    df_precios.to_csv(ARCHIVO_PLATA_PRECIOS_LIMPIO, index=False, encoding="utf-8")
+    df_precios.to_csv(
+        ARCHIVO_PLATA_PRECIOS_LIMPIO, index=False, encoding="utf-8", lineterminator="\n"
+    )
 
     return {"atipicos_clima": atipicos_clima, "atipicos_precios": atipicos_precios}
 

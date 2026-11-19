@@ -149,7 +149,9 @@ def ejecutar_procesamiento_geoespacial() -> dict[str, int | float]:
     gdf_rutas = construir_matriz_rutas_colima(gdf_utm)
 
     df_csv = pd.DataFrame(gdf_rutas.drop(columns=["geometry"]))
-    df_csv.to_csv(ARCHIVO_ORO_RUTAS_FLETE, index=False, encoding="utf-8")
+    df_csv.to_csv(
+        ARCHIVO_ORO_RUTAS_FLETE, index=False, encoding="utf-8", lineterminator="\n"
+    )
     gdf_rutas.to_file(ARCHIVO_ORO_GEOJSON_RUTAS, driver="GeoJSON")
 
     return {

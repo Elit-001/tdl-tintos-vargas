@@ -102,7 +102,9 @@ def actualizar_linaje_pronosticos() -> None:
     if ARCHIVO_PRONOSTICOS_ORO.exists():
         df_pron = pd.read_csv(ARCHIVO_PRONOSTICOS_ORO)
         df_pron = adjuntar_columnas_linaje(df_pron, ARCHIVO_PRECIOS_MENSUAL, "ORO-PRN")
-        df_pron.to_csv(ARCHIVO_PRONOSTICOS_ORO, index=False, encoding="utf-8")
+        df_pron.to_csv(
+            ARCHIVO_PRONOSTICOS_ORO, index=False, encoding="utf-8", lineterminator="\n"
+        )
 
 
 def formatear_fila_diccionario(columna: str, serie: pd.Series) -> str:
@@ -161,7 +163,9 @@ def ejecutar_integracion_oro() -> dict[str, int | float]:
     df_precios = pd.read_csv(ARCHIVO_PLATA_PRECIOS_LIMPIO)
     df_clima = pd.read_csv(ARCHIVO_PLATA_CLIMA_LIMPIO)
     df_oro = integrar_precios_y_clima(df_precios, df_clima)
-    df_oro.to_csv(ARCHIVO_ORO_ANALITICO, index=False, encoding="utf-8")
+    df_oro.to_csv(
+        ARCHIVO_ORO_ANALITICO, index=False, encoding="utf-8", lineterminator="\n"
+    )
     actualizar_linaje_pronosticos()
     generar_diccionario_datos(df_oro, ARCHIVO_DICCIONARIO_ORO)
     completitud = round((1.0 - float(df_oro.isna().mean().mean())) * 100.0, 2)
