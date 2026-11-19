@@ -1,8 +1,8 @@
-"""Módulo de Integración Relacional hacia Capa Oro y Diccionario de Datos (E1).
+"""Módulo de Integración Relacional, Linaje Total y Diccionario de Datos (E1-E2).
 
-Realiza el join/merge limpio entre precios mayoristas y variables hidroclimáticas
-por periodo_mensual y zona_agricola de origen, resolviendo colisiones de esquema
-y generando data/oro/dataset_analitico.csv y data/oro/diccionario_datos.md.
+Realiza el join/merge limpio entre precios mayoristas y variables hidroclimáticas,
+inyecta las 5 columnas obligatorias de linaje rastreables hasta data/bronce/*.meta.json
+en todos los artefactos de data/oro/, y actualiza data/oro/diccionario_datos.md.
 """
 
 from pathlib import Path
@@ -10,12 +10,20 @@ from pathlib import Path
 import pandas as pd
 
 from config import (
+    ARCHIVO_CLIMA_MENSUAL,
     ARCHIVO_DICCIONARIO_ORO,
     ARCHIVO_ORO_ANALITICO,
+    ARCHIVO_ORO_RUTAS_FLETE,
     ARCHIVO_PLATA_CLIMA_LIMPIO,
     ARCHIVO_PLATA_PRECIOS_LIMPIO,
+    ARCHIVO_PRECIOS_MENSUAL,
+    ARCHIVO_PRONOSTICOS_ORO,
     DATA_ORO,
     MAPEO_CULTIVO_ZONA_ORIGEN,
+)
+from pipeline.geoespacial import (
+    adjuntar_columnas_linaje,
+    obtener_metadatos_linaje_bronce,
 )
 
 DESCRIPCIONES_VARIABLES: dict[str, tuple[str, str]] = {
@@ -36,6 +44,11 @@ DESCRIPCIONES_VARIABLES: dict[str, tuple[str, str]] = {
     "precipitacion_acumulada_mm": ("Milímetros (mm)", "Lluvia acumulada mensual"),
     "evapotranspiracion_mm": ("Milímetros (mm)", "Evapotranspiración FAO ET0 acumulada"),
     "humedad_relativa_pct": ("Porcentaje (%)", "Humedad relativa media mensual"),
+    "linaje_id_registro": ("Identificador único", "ID determinista del registro en Oro"),
+    "linaje_archivo_bronce": ("Nombre de archivo", "Archivo origen en data/bronce/"),
+    "linaje_sha256_bronce": ("Hash SHA-256 (64 hex)", "Firma criptográfica desde .meta.json"),
+    "linaje_fecha_ingesta_utc": ("ISO-8601 UTC", "Timestamp de captura en Capa Bronce"),
+    "linaje_fuente": ("Texto identificador", "Fuente de extracción verificada"),
 }
 
 
@@ -66,7 +79,7 @@ def preparar_esquema_clima(df_clima: pd.DataFrame) -> pd.DataFrame:
 def integrar_precios_y_clima(
     df_precios: pd.DataFrame, df_clima: pd.DataFrame
 ) -> pd.DataFrame:
-    """Ejecuta el merge relacional limpio por periodo_mensual y zona_agricola."""
+    """Ejecuta el merge relacional limpio e inyecta trazabilidad completa Bronce-Oro."""
     df_p = preparar_esquema_precios(df_precios)
     df_c = preparar_esquema_clima(df_clima)
     df_oro = pd.merge(
@@ -76,51 +89,80 @@ def integrar_precios_y_clima(
         how="inner",
         validate="many_to_one",
     )
-    return df_oro.sort_values(
+    df_oro = df_oro.sort_values(
         ["periodo_mensual", "cultivo", "central_abasto"]
     ).reset_index(drop=True)
+    meta_clima = obtener_metadatos_linaje_bronce(ARCHIVO_CLIMA_MENSUAL)
+    df_oro["linaje_sha256_clima_bronce"] = str(meta_clima["hash_sha256"])
+    return adjuntar_columnas_linaje(df_oro, ARCHIVO_PRECIOS_MENSUAL, "ORO-ANL")
+
+
+def actualizar_linaje_pronosticos() -> None:
+    """Asegura que pronosticos_e1.csv en Capa Oro también tenga las 5 columnas de linaje."""
+    if ARCHIVO_PRONOSTICOS_ORO.exists():
+        df_pron = pd.read_csv(ARCHIVO_PRONOSTICOS_ORO)
+        df_pron = adjuntar_columnas_linaje(df_pron, ARCHIVO_PRECIOS_MENSUAL, "ORO-PRN")
+        df_pron.to_csv(ARCHIVO_PRONOSTICOS_ORO, index=False, encoding="utf-8")
 
 
 def formatear_fila_diccionario(columna: str, serie: pd.Series) -> str:
     """Construye una fila Markdown con tipo, unidad, completitud y rango observado."""
     unidad, desc = DESCRIPCIONES_VARIABLES.get(
-        columna, ("Escala [0, 1] / Metadato", f"Indicador derivado ({columna})")
+        columna, ("Escala [0, 1] / Metadato", f"Indicador o atributo ({columna})")
     )
     completitud = round((1.0 - float(serie.isna().mean())) * 100.0, 2)
     if pd.api.types.is_numeric_dtype(serie) and serie.dtype != bool:
         rango = f"[{serie.min():.2f}, {serie.max():.2f}] (media={serie.mean():.2f})"
     else:
         ejemplos = ", ".join(map(str, serie.dropna().unique()[:3]))
-        rango = f"Valores: {ejemplos}"
+        rango = f"Valores: {ejemplos[:64]}"
     return f"| `{columna}` | `{serie.dtype}` | {unidad} | {completitud}% | {rango} | {desc} |"
 
 
 def generar_diccionario_datos(
     df_oro: pd.DataFrame, ruta_md: Path = ARCHIVO_DICCIONARIO_ORO
 ) -> None:
-    """Genera automáticamente data/oro/diccionario_datos.md auditado bajo ISO 25012."""
+    """Genera automáticamente data/oro/diccionario_datos.md con tablas E1 y E2."""
     DATA_ORO.mkdir(parents=True, exist_ok=True)
-    filas = [
+    filas_anl = [
         formatear_fila_diccionario(col, df_oro[col]) for col in list(df_oro.columns)
     ]
-    encabezado = [
-        "# Diccionario de Datos — Capa Oro (`dataset_analitico.csv`)\n",
-        f"* **Total de registros consolidados:** `{len(df_oro)}` filas (`48` meses × `4` cultivos × `4` centrales)",
-        f"* **Total de atributos:** `{len(df_oro.columns)}` columnas",
-        "* **Estándar de calidad aplicado:** ISO/IEC 25012 (Completitud, Exactitud y Consistencia)\n",
+    bloques = [
+        "# Diccionario de Datos — Capa Oro (`dataset_analitico.csv` y `rutas_flete_colima.csv`)\n",
+        f"* **Total de registros analíticos (E1-E2):** `{len(df_oro)}` filas (`48` meses × `4` cultivos × `4` centrales)",
+        f"* **Total de atributos en `dataset_analitico.csv`:** `{len(df_oro.columns)}` columnas (incluye 5 columnas de linaje SHA-256)",
+        "* **Estándar de calidad aplicado:** ISO/IEC 25012 (Completitud, Exactitud, Consistencia y Trazabilidad)\n",
+        "## 1. Tabla Principal: `dataset_analitico.csv`\n",
         "| Columna | Tipo Python | Unidad / Escala | Completitud | Dominio / Rango Observado | Descripción |",
         "| :--- | :--- | :--- | :---: | :--- | :--- |",
+        *filas_anl,
     ]
-    ruta_md.write_text("\n".join(encabezado + filas) + "\n", encoding="utf-8")
+    if ARCHIVO_ORO_RUTAS_FLETE.exists():
+        df_rutas = pd.read_csv(ARCHIVO_ORO_RUTAS_FLETE)
+        filas_geo = [
+            formatear_fila_diccionario(col, df_rutas[col])
+            for col in list(df_rutas.columns)
+        ]
+        bloques.extend(
+            [
+                "\n## 2. Tabla Geoespacial y Logística (E2): `rutas_flete_colima.csv`\n",
+                f"* **Total de rutas productor-comprador ancla:** `{len(df_rutas)}` rutas (`4` productores × `4` compradores en Colima, reproyección `EPSG:4326` -> `EPSG:32613` UTM Zona 13N)\n",
+                "| Columna | Tipo Python | Unidad / Escala | Completitud | Dominio / Rango Observado | Descripción |",
+                "| :--- | :--- | :--- | :---: | :--- | :--- |",
+                *filas_geo,
+            ]
+        )
+    ruta_md.write_text("\n".join(bloques) + "\n", encoding="utf-8")
 
 
 def ejecutar_integracion_oro() -> dict[str, int | float]:
-    """Orquesta la unión de Plata a Oro y escribe dataset_analitico y diccionario."""
+    """Orquesta la unión de Plata a Oro, inyecta linaje SHA-256 y escribe diccionario."""
     DATA_ORO.mkdir(parents=True, exist_ok=True)
     df_precios = pd.read_csv(ARCHIVO_PLATA_PRECIOS_LIMPIO)
     df_clima = pd.read_csv(ARCHIVO_PLATA_CLIMA_LIMPIO)
     df_oro = integrar_precios_y_clima(df_precios, df_clima)
     df_oro.to_csv(ARCHIVO_ORO_ANALITICO, index=False, encoding="utf-8")
+    actualizar_linaje_pronosticos()
     generar_diccionario_datos(df_oro, ARCHIVO_DICCIONARIO_ORO)
     completitud = round((1.0 - float(df_oro.isna().mean().mean())) * 100.0, 2)
     return {
@@ -132,5 +174,4 @@ def ejecutar_integracion_oro() -> dict[str, int | float]:
 
 if __name__ == "__main__":
     resumen = ejecutar_integracion_oro()
-    print(f"Integración en Capa Oro completada: {resumen}")
-
+    print(f"Integración y linaje en Capa Oro completados: {resumen}")

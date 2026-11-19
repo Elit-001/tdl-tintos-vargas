@@ -37,6 +37,14 @@ ARCHIVO_ORO_ANALITICO: Path = DATA_ORO / "dataset_analitico.csv"
 ARCHIVO_DICCIONARIO_ORO: Path = DATA_ORO / "diccionario_datos.md"
 ARCHIVO_PRONOSTICOS_ORO: Path = DATA_ORO / "pronosticos_e1.csv"
 
+ARCHIVO_GEOESPACIAL_NODOS: Path = DATA_BRONCE / "nodos_geoespaciales_colima.csv"
+ARCHIVO_PLATA_GEOESPACIAL: Path = DATA_PLATA / "nodos_geoespaciales_plata.csv"
+ARCHIVO_CUARENTENA_GEOESPACIAL: Path = (
+    DATA_CUARENTENA / "nodos_geoespaciales_cuarentena.csv"
+)
+ARCHIVO_ORO_RUTAS_FLETE: Path = DATA_ORO / "rutas_flete_colima.csv"
+ARCHIVO_ORO_GEOJSON_RUTAS: Path = DATA_ORO / "rutas_flete_colima.geojson"
+
 # ==============================================================================
 # 2. COORDENADAS DE ZONAS AGROPRODUCTORAS DE COLIMA
 # ==============================================================================
@@ -115,4 +123,84 @@ COLUMNAS_BITACORA: list[str] = [
     "registros_obtenidos",
     "tiempo_segundos",
     "mensaje_error",
+]
+
+# ==============================================================================
+# 6. PARÁMETROS GEOESPACIALES, LOGÍSTICA DE FLETE Y LINAJE TOTAL (ENTREGA E2)
+# ==============================================================================
+URL_BASE_OVERPASS: str = "https://overpass-api.de"
+URL_API_OVERPASS: str = "https://overpass-api.de/api/interpreter"
+
+EPSG_WGS84: str = "EPSG:4326"
+EPSG_UTM_COLIMA: str = "EPSG:32613"
+
+FACTOR_SINUOSIDAD_VIAL: float = 1.24
+COSTO_FLETE_MXN_POR_KM: float = 18.50
+COSTO_MANIOBRA_LOTE_MXN: float = 220.0
+PESO_LOTE_CONSOLIDADO_KG: float = 400.0
+
+NODOS_PRODUCTORES_COLIMA: dict[str, dict[str, str | float]] = {
+    "Tecomán": {
+        "municipio": "Tecomán",
+        "latitud": 18.9142,
+        "longitud": -103.8753,
+        "cultivo_principal": "Limón Mexicano",
+    },
+    "Armería": {
+        "municipio": "Armería",
+        "latitud": 18.9378,
+        "longitud": -103.9644,
+        "cultivo_principal": "Papaya Maradol",
+    },
+    "Manzanillo": {
+        "municipio": "Manzanillo",
+        "latitud": 19.0522,
+        "longitud": -104.3158,
+        "cultivo_principal": "Plátano Chiapas",
+    },
+    "Coquimatlán": {
+        "municipio": "Coquimatlán",
+        "latitud": 19.2058,
+        "longitud": -103.8092,
+        "cultivo_principal": "Aguacate Hass",
+    },
+}
+
+COMPRADORES_ANCLA_COLIMA: dict[str, dict[str, str | float]] = {
+    "Walmart Colima": {
+        "municipio": "Colima",
+        "latitud": 19.2614,
+        "longitud": -103.7153,
+        "demanda_lote_kg": 400.0,
+        "prima_comercial_pct": 6.5,
+    },
+    "Empacadora San José": {
+        "municipio": "Tecomán",
+        "latitud": 18.9218,
+        "longitud": -103.8842,
+        "demanda_lote_kg": 400.0,
+        "prima_comercial_pct": 5.0,
+    },
+    "Agroindustriales de Colima": {
+        "municipio": "Villa de Álvarez",
+        "latitud": 19.2391,
+        "longitud": -103.7485,
+        "demanda_lote_kg": 400.0,
+        "prima_comercial_pct": 5.8,
+    },
+    "Limones Prolim": {
+        "municipio": "Armería",
+        "latitud": 18.9385,
+        "longitud": -103.9621,
+        "demanda_lote_kg": 400.0,
+        "prima_comercial_pct": 4.5,
+    },
+}
+
+COLUMNAS_LINAJE_ORO: list[str] = [
+    "linaje_id_registro",
+    "linaje_archivo_bronce",
+    "linaje_sha256_bronce",
+    "linaje_fecha_ingesta_utc",
+    "linaje_fuente",
 ]

@@ -1,8 +1,8 @@
 """Puerta de Calidad Automatizada con Pandera (Transición Bronce -> Plata / Cuarentena).
 
-Cumple el criterio E1 de Ingeniería de Datos y Calidad en SI (ISO/IEC 25012):
-valida esquemas y rangos físicos/económicos sin realizar borrado silencioso,
-enviando todo registro inválido a data/cuarentena/ con su motivo_rechazo.
+Cumple el criterio E1-E2 de Ingeniería de Datos y Calidad en SI (ISO/IEC 25012):
+valida esquemas y rangos físicos, económicos y geoespaciales sin realizar borrado
+silencioso, enviando todo registro inválido a data/cuarentena/ con motivo_rechazo.
 """
 
 from pathlib import Path
@@ -13,8 +13,11 @@ import pandera.pandas as pa
 from config import (
     ARCHIVO_CLIMA_MENSUAL,
     ARCHIVO_CUARENTENA_CLIMA,
+    ARCHIVO_CUARENTENA_GEOESPACIAL,
     ARCHIVO_CUARENTENA_PRECIOS,
+    ARCHIVO_GEOESPACIAL_NODOS,
     ARCHIVO_PLATA_CLIMA,
+    ARCHIVO_PLATA_GEOESPACIAL,
     ARCHIVO_PLATA_PRECIOS,
     ARCHIVO_PRECIOS_MENSUAL,
     CENTRALES_ABASTO,
@@ -27,7 +30,9 @@ from config import (
 
 def _col_rango(min_val: float, max_val: float, nulo: bool = True) -> pa.Column:
     """Crea una columna numérica Pandera con validación de rango físico o económico."""
-    return pa.Column(float, pa.Check.in_range(min_val, max_val), nullable=nulo, coerce=True)
+    return pa.Column(
+        float, pa.Check.in_range(min_val, max_val), nullable=nulo, coerce=True
+    )
 
 
 def crear_esquema_clima() -> pa.DataFrameSchema:
@@ -64,6 +69,26 @@ def crear_esquema_precios() -> pa.DataFrameSchema:
             "costo_logistico_mxn_kg": _col_rango(0.1, 50.0),
             "margen_comercial_mxn_kg": _col_rango(-50.0, 200.0),
             "margen_comercial_pct": _col_rango(-100.0, 100.0),
+            "fecha_captura": pa.Column(str, nullable=False),
+            "fuente_origen": pa.Column(str, nullable=False),
+        },
+        strict=False,
+    )
+
+
+def crear_esquema_geoespacial() -> pa.DataFrameSchema:
+    """Define el contrato Pandera para nodos productores y compradores en Colima."""
+    tipos_validos = ["PRODUCTOR_ORIGEN", "COMPRADOR_ANCLA"]
+    return pa.DataFrameSchema(
+        {
+            "id_nodo": pa.Column(str, nullable=False),
+            "nombre_nodo": pa.Column(str, nullable=False),
+            "tipo_nodo": pa.Column(str, pa.Check.isin(tipos_validos)),
+            "municipio": pa.Column(str, nullable=False),
+            "latitud": _col_rango(18.7, 19.5, nulo=False),
+            "longitud": _col_rango(-104.6, -103.4, nulo=False),
+            "capacidad_lote_kg": _col_rango(50.0, 5000.0, nulo=False),
+            "prima_comercial_pct": _col_rango(0.0, 35.0, nulo=False),
             "fecha_captura": pa.Column(str, nullable=False),
             "fuente_origen": pa.Column(str, nullable=False),
         },
@@ -123,7 +148,7 @@ def procesar_archivo_bronce(
 
 
 def ejecutar_puerta_calidad() -> dict[str, dict[str, int]]:
-    """Ejecuta la puerta de calidad sobre precios y clima garantizando 0% pérdida."""
+    """Ejecuta la puerta de calidad sobre clima, precios y nodos geoespaciales."""
     res_clima = procesar_archivo_bronce(
         ARCHIVO_CLIMA_MENSUAL,
         crear_esquema_clima(),
@@ -136,7 +161,15 @@ def ejecutar_puerta_calidad() -> dict[str, dict[str, int]]:
         ARCHIVO_PLATA_PRECIOS,
         ARCHIVO_CUARENTENA_PRECIOS,
     )
-    return {"clima": res_clima, "precios": res_precios}
+    resultado = {"clima": res_clima, "precios": res_precios}
+    if ARCHIVO_GEOESPACIAL_NODOS.exists():
+        resultado["geoespacial"] = procesar_archivo_bronce(
+            ARCHIVO_GEOESPACIAL_NODOS,
+            crear_esquema_geoespacial(),
+            ARCHIVO_PLATA_GEOESPACIAL,
+            ARCHIVO_CUARENTENA_GEOESPACIAL,
+        )
+    return resultado
 
 
 if __name__ == "__main__":

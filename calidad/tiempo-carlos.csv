@@ -9,3 +9,7 @@ fecha,inicio,fin,interrupcion_min,fase,actividad
 2026-11-09,15:30,18:45,15,Codificación,Implementacion de pipeline/limpieza.py con diagnostico MCAR/MAR imputacion tratamiento IQR normalizacion Min-Max y discretizacion
 2026-11-09,19:00,21:10,10,Codificación,Desarrollo de pipeline/integracion.py y pipeline/orquestador_e1.py generando dataset_analitico.csv y diccionario_datos.md
 2026-11-10,09:30,12:00,10,Pruebas,Actualizacion de CI/CD con pytest ruff gitleaks y pip-audit y desarrollo del tablero interactivo en Streamlit
+2026-11-15,16:00,18:20,10,Diseño,Diseno del extractor geoespacial OpenStreetMap Overpass esquema Pandera de nodos en Colima y arquitectura de linaje SHA-256
+2026-11-16,16:30,19:30,15,Codificación,Implementacion de extractores/extractor_geoespacial.py y pipeline/geoespacial.py con GeoPandas EPSG 4326 a EPSG 32613 UTM 13N
+2026-11-17,17:00,19:45,10,Codificación,Inyeccion de las 5 columnas de linaje Bronce-Oro en pipeline/integracion.py y visualizacion cartografica de fletes en tablero/app.py
+2026-11-18,16:00,18:30,10,Pruebas,Creacion de pruebas unitarias de linaje SHA-256 y distancias geoespaciales en tests/test_pipeline_e2.py y validacion ruff pytest pip-audit
