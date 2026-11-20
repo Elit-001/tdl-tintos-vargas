@@ -17,7 +17,7 @@
 | `costo_logistico_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.35, 6.64] (media=3.61) | Flete refrigerado/ventilado estimado |
 | `margen_comercial_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.32, 50.49] (media=12.79) | Margen neto descontando origen y flete |
 | `margen_comercial_pct` | `float64` | Porcentaje (%) | 100.0% | [8.06, 54.09] (media=35.99) | Margen comercial neto relativo |
-| `fecha_captura_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-19 | Indicador o atributo (fecha_captura_precios) |
+| `fecha_captura_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-20 | Indicador o atributo (fecha_captura_precios) |
 | `fuente_origen_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: sniim_web_verificado | Indicador o atributo (fuente_origen_precios) |
 | `es_atipico_precio` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador o atributo (es_atipico_precio) |
 | `precio_mayorista_mxn_kg_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.43) | Indicador o atributo (precio_mayorista_mxn_kg_norm) |
@@ -35,7 +35,7 @@
 | `precipitacion_acumulada_mm` | `float64` | Milímetros (mm) | 100.0% | [0.00, 385.91] (media=74.64) | Lluvia acumulada mensual |
 | `evapotranspiracion_mm` | `float64` | Milímetros (mm) | 100.0% | [102.23, 171.73] (media=132.93) | Evapotranspiración FAO ET0 acumulada |
 | `humedad_relativa_pct` | `float64` | Porcentaje (%) | 100.0% | [61.68, 90.10] (media=77.52) | Humedad relativa media mensual |
-| `fecha_captura_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-19 | Indicador o atributo (fecha_captura_clima) |
+| `fecha_captura_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-20 | Indicador o atributo (fecha_captura_clima) |
 | `fuente_origen_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: open_meteo_archive_api | Indicador o atributo (fuente_origen_clima) |
 | `es_atipico_clima` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador o atributo (es_atipico_clima) |
 | `temperatura_max_c_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.42) | Indicador o atributo (temperatura_max_c_norm) |
@@ -43,11 +43,11 @@
 | `precipitacion_acumulada_mm_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.23) | Indicador o atributo (precipitacion_acumulada_mm_norm) |
 | `evapotranspiracion_mm_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.44) | Indicador o atributo (evapotranspiracion_mm_norm) |
 | `humedad_relativa_pct_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.51) | Indicador o atributo (humedad_relativa_pct_norm) |
-| `linaje_sha256_clima_bronce` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: dc66af030308640fe98e24765384e94fca98fbe85b73c9090721937a06b74a7d | Indicador o atributo (linaje_sha256_clima_bronce) |
+| `linaje_sha256_clima_bronce` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 8b48c8a747c725d760c066c8d9ef9b3c64ec4d05c2fb9ccc58aa40fe2b48c546 | Indicador o atributo (linaje_sha256_clima_bronce) |
 | `linaje_id_registro` | `str` | Identificador único | 100.0% | Valores: ORO-ANL-00001, ORO-ANL-00002, ORO-ANL-00003 | ID determinista del registro en Oro |
 | `linaje_archivo_bronce` | `str` | Nombre de archivo | 100.0% | Valores: precios_agro_historico_mensual.csv | Archivo origen en data/bronce/ |
-| `linaje_sha256_bronce` | `str` | Hash SHA-256 (64 hex) | 100.0% | Valores: b0fa9cfe9fcc3c495a624abf658cf619884c8bfa41caebaea070f3a48f6e7414 | Firma criptográfica desde .meta.json |
-| `linaje_fecha_ingesta_utc` | `str` | ISO-8601 UTC | 100.0% | Valores: 2026-11-19T17:08:14.921635+00:00 | Timestamp de captura en Capa Bronce |
+| `linaje_sha256_bronce` | `str` | Hash SHA-256 (64 hex) | 100.0% | Valores: fefd83ebc139afc1948b73a9b03cc2b63ef09880bc6fb60671af32f463ecbff9 | Firma criptográfica desde .meta.json |
+| `linaje_fecha_ingesta_utc` | `str` | ISO-8601 UTC | 100.0% | Valores: 2026-11-20T16:46:05.673760+00:00 | Timestamp de captura en Capa Bronce |
 | `linaje_fuente` | `str` | Texto identificador | 100.0% | Valores: sniim_web_verificado | Fuente de extracción verificada |
 
 ## 2. Tabla Geoespacial y Logística (E2): `rutas_flete_colima.csv`
@@ -78,6 +78,6 @@
 | `es_ruta_optima` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador o atributo (es_ruta_optima) |
 | `linaje_id_registro` | `str` | Identificador único | 100.0% | Valores: GEO-E2-00001, GEO-E2-00002, GEO-E2-00003 | ID determinista del registro en Oro |
 | `linaje_archivo_bronce` | `str` | Nombre de archivo | 100.0% | Valores: nodos_geoespaciales_colima.csv | Archivo origen en data/bronce/ |
-| `linaje_sha256_bronce` | `str` | Hash SHA-256 (64 hex) | 100.0% | Valores: d22df26a64995b4951c07a2adb9a7b96e264f2890e8bc14422803e32a9cf741d | Firma criptográfica desde .meta.json |
-| `linaje_fecha_ingesta_utc` | `str` | ISO-8601 UTC | 100.0% | Valores: 2026-11-19T17:08:15.505851+00:00 | Timestamp de captura en Capa Bronce |
+| `linaje_sha256_bronce` | `str` | Hash SHA-256 (64 hex) | 100.0% | Valores: 7125029199332d6737fa089c00755dfe9882e827376df4d060ef684747fbc251 | Firma criptográfica desde .meta.json |
+| `linaje_fecha_ingesta_utc` | `str` | ISO-8601 UTC | 100.0% | Valores: 2026-11-20T16:46:06.242856+00:00 | Timestamp de captura en Capa Bronce |
 | `linaje_fuente` | `str` | Texto identificador | 100.0% | Valores: osm_catalogo_referencia_colima | Fuente de extracción verificada |

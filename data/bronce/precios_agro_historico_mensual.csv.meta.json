@@ -2,8 +2,8 @@
   "archivo": "precios_agro_historico_mensual.csv",
   "ruta_relativa": "data/bronce/precios_agro_historico_mensual.csv",
   "algoritmo_hash": "SHA-256",
-  "hash_sha256": "b0fa9cfe9fcc3c495a624abf658cf619884c8bfa41caebaea070f3a48f6e7414",
+  "hash_sha256": "fefd83ebc139afc1948b73a9b03cc2b63ef09880bc6fb60671af32f463ecbff9",
   "tamano_bytes": 93923,
-  "timestamp_captura": "2026-11-19T17:08:14.921635+00:00",
+  "timestamp_captura": "2026-11-20T16:46:05.673760+00:00",
   "fuente_origen": "sniim_web_verificado"
 }
