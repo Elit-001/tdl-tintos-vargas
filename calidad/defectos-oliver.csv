@@ -7,3 +7,6 @@ numero,fecha,tipo,fase_introducido,fase_eliminado,minutos_correccion,defecto_ori
 6,2026-11-09,80-Funcion,Codificación,Pruebas,21,N/A,Parametro lags=24 en acf y pacf excedia el limite del 50 por ciento de la muestra diferenciada; se ajusto a nlags=18
 7,2026-11-09,40-Asignacion,Codificación,Revisión,13,N/A,Calculo de MAPE dividia sobre el vector predicho en lugar del valor real observado en el conjunto de prueba de 6 meses
 8,2026-11-10,10-Documentacion,Postmortem,Revisión,10,N/A,Enlace relativo hacia diccionario_datos.md en docs/E1/ENTREGA.md omitia un nivel de directorio superior
+9,2026-11-15,40-Asignacion,Diseño,Codificación,16,N/A,Codificacion preliminar (0 y 1) en factores del diseno 2^3 alteraba la ortogonalidad de los contrastes; se estandarizo a (-1 y +1)
+10,2026-11-16,80-Funcion,Diseño,Pruebas,22,N/A,Generador preliminar D=AB producia Resolucion III confundiendo efectos principales con interacciones dobles; se elevo a D=ABC Resolucion IV
+11,2026-11-17,60-Chequeo,Codificación,Revisión,14,N/A,Faltaba contraste formal de homocedasticidad de Levene entre tratamientos en el notebook E2; se agrego scipy.stats.levene junto con Shapiro-Wilk

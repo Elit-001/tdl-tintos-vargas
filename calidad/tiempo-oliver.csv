@@ -9,3 +9,7 @@ fecha,inicio,fin,interrupcion_min,fase,actividad
 2026-11-09,16:00,19:20,15,Codificación,Desarrollo de laboratorio/E1_pronosticos.ipynb con descomposicion STL prueba ADF graficas ACF/PACF y 4 modelos
 2026-11-09,19:30,21:15,5,Pruebas,Evaluacion comparativa con MAE RMSE y MAPE diagnostico de residuos Ljung-Box y seleccion del modelo ganador
 2026-11-10,09:30,11:50,10,Postmortem,Calculo de MTBF MTTR y Disponibilidad redactando docs/relatoria-E1.md y docs/E1/ENTREGA.md
+2026-11-15,16:30,19:00,10,Diseño,Formulacion de la matriz de diseno factorial completo 2^3 y fraccionado 2^(4-1) con generador D=ABC sobre fletes de Colima
+2026-11-16,17:00,20:10,15,Codificación,Desarrollo y ejecucion de laboratorio/E2_diseno_experimentos.ipynb con tabla ANOVA graficas de interaccion y pruebas Shapiro-Levene
+2026-11-17,16:00,19:00,10,Revisión,Ejecucion de auditoria formal ISO/IEC 25010 e ISO/IEC 25012 como Quality Lead E2 documentada en docs/auditoria/auditoria-iso-E2.md
+2026-11-18,16:30,19:15,10,Postmortem,Redaccion de declaracion legal docs/etica-datos.md relatoria tecnica docs/relatoria-E2.md y ficha docs/E2/ENTREGA.md
