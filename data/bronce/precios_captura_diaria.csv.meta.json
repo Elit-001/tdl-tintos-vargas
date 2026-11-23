@@ -2,8 +2,8 @@
   "archivo": "precios_captura_diaria.csv",
   "ruta_relativa": "data/bronce/precios_captura_diaria.csv",
   "algoritmo_hash": "SHA-256",
-  "hash_sha256": "1f46ab2912a0314aa2664bc76bb7167f1dcf8f3dbf974414cfeea8e3dd3a6d35",
-  "tamano_bytes": 24290,
-  "timestamp_captura": "2026-11-22T16:00:03.056106+00:00",
+  "hash_sha256": "c4365167cee7af2a116357eea1661816ee90c0a776489c954253ec2a8d7e9ae2",
+  "tamano_bytes": 26298,
+  "timestamp_captura": "2026-11-23T19:55:22.474366+00:00",
   "fuente_origen": "sniim_web_verificado"
 }
