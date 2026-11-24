@@ -1,9 +1,9 @@
 id_nodo,nombre_nodo,tipo_nodo,municipio,latitud,longitud,cultivo_referencia,capacidad_lote_kg,prima_comercial_pct,fecha_captura,fuente_origen
-PROD-01,Tecomán,PRODUCTOR_ORIGEN,Tecomán,18.9142,-103.8753,Limón Mexicano,400.0,0.0,2026-11-23,osm_catalogo_referencia_colima
-PROD-02,Armería,PRODUCTOR_ORIGEN,Armería,18.9378,-103.9644,Papaya Maradol,400.0,0.0,2026-11-23,osm_catalogo_referencia_colima
-PROD-03,Manzanillo,PRODUCTOR_ORIGEN,Manzanillo,19.0522,-104.3158,Plátano Chiapas,400.0,0.0,2026-11-23,osm_catalogo_referencia_colima
-PROD-04,Coquimatlán,PRODUCTOR_ORIGEN,Coquimatlán,19.2058,-103.8092,Aguacate Hass,400.0,0.0,2026-11-23,osm_catalogo_referencia_colima
-COMP-01,Walmart Colima,COMPRADOR_ANCLA,Colima,19.2614,-103.7153,Multicultivo Consolidado,400.0,6.5,2026-11-23,osm_catalogo_referencia_colima
-COMP-02,Empacadora San José,COMPRADOR_ANCLA,Tecomán,18.9218,-103.8842,Multicultivo Consolidado,400.0,5.0,2026-11-23,osm_catalogo_referencia_colima
-COMP-03,Agroindustriales de Colima,COMPRADOR_ANCLA,Villa de Álvarez,19.2391,-103.7485,Multicultivo Consolidado,400.0,5.8,2026-11-23,osm_catalogo_referencia_colima
-COMP-04,Limones Prolim,COMPRADOR_ANCLA,Armería,18.9385,-103.9621,Multicultivo Consolidado,400.0,4.5,2026-11-23,osm_catalogo_referencia_colima
+PROD-01,Tecomán,PRODUCTOR_ORIGEN,Tecomán,18.9142,-103.8753,Limón Mexicano,400.0,0.0,2026-11-24,osm_catalogo_referencia_colima
+PROD-02,Armería,PRODUCTOR_ORIGEN,Armería,18.9378,-103.9644,Papaya Maradol,400.0,0.0,2026-11-24,osm_catalogo_referencia_colima
+PROD-03,Manzanillo,PRODUCTOR_ORIGEN,Manzanillo,19.0522,-104.3158,Plátano Chiapas,400.0,0.0,2026-11-24,osm_catalogo_referencia_colima
+PROD-04,Coquimatlán,PRODUCTOR_ORIGEN,Coquimatlán,19.2058,-103.8092,Aguacate Hass,400.0,0.0,2026-11-24,osm_catalogo_referencia_colima
+COMP-01,Walmart Colima,COMPRADOR_ANCLA,Colima,19.2614,-103.7153,Multicultivo Consolidado,400.0,6.5,2026-11-24,osm_catalogo_referencia_colima
+COMP-02,Empacadora San José,COMPRADOR_ANCLA,Tecomán,18.9218,-103.8842,Multicultivo Consolidado,400.0,5.0,2026-11-24,osm_catalogo_referencia_colima
+COMP-03,Agroindustriales de Colima,COMPRADOR_ANCLA,Villa de Álvarez,19.2391,-103.7485,Multicultivo Consolidado,400.0,5.8,2026-11-24,osm_catalogo_referencia_colima
+COMP-04,Limones Prolim,COMPRADOR_ANCLA,Armería,18.9385,-103.9621,Multicultivo Consolidado,400.0,4.5,2026-11-24,osm_catalogo_referencia_colima
