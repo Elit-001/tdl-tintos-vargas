@@ -2,8 +2,8 @@
   "archivo": "nodos_geoespaciales_colima.csv",
   "ruta_relativa": "data/bronce/nodos_geoespaciales_colima.csv",
   "algoritmo_hash": "SHA-256",
-  "hash_sha256": "e2cee181627adec4e1b7bde1a97cb0fe8a36ceb46b7f39012f3e207f1d441159",
+  "hash_sha256": "2649443860f91284b534030e31191b543dfeca8a2c1d18994805fb807fd85b2d",
   "tamano_bytes": 1265,
-  "timestamp_captura": "2026-11-24T19:24:26.037813+00:00",
+  "timestamp_captura": "2026-11-25T18:30:23.877922+00:00",
   "fuente_origen": "osm_catalogo_referencia_colima"
 }
