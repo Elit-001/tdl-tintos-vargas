@@ -44,6 +44,14 @@ ARCHIVO_CUARENTENA_GEOESPACIAL: Path = (
 )
 ARCHIVO_ORO_RUTAS_FLETE: Path = DATA_ORO / "rutas_flete_colima.csv"
 ARCHIVO_ORO_GEOJSON_RUTAS: Path = DATA_ORO / "rutas_flete_colima.geojson"
+ARCHIVO_ORO_PARQUET: Path = DATA_ORO / "dataset_analitico.parquet"
+
+DATA_PUBLICADO: Path = RUTA_DATOS / "publicado"
+ARCHIVO_PUBLICADO_CSV: Path = DATA_PUBLICADO / "agropulse_colima_curado.csv"
+ARCHIVO_PUBLICADO_PARQUET: Path = DATA_PUBLICADO / "agropulse_colima_curado.parquet"
+ARCHIVO_PUBLICADO_LICENCIA: Path = DATA_PUBLICADO / "LICENSE"
+ARCHIVO_PUBLICADO_README: Path = DATA_PUBLICADO / "README.md"
+ARCHIVO_BENCHMARK_E3: Path = RUTA_CALIDAD / "benchmark_e3.csv"
 
 # ==============================================================================
 # 2. COORDENADAS DE ZONAS AGROPRODUCTORAS DE COLIMA

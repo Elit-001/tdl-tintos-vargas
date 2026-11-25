@@ -1,8 +1,8 @@
 """Puerta de Calidad Automatizada con Pandera (Transición Bronce -> Plata / Cuarentena).
 
-Cumple el criterio E1-E2 de Ingeniería de Datos y Calidad en SI (ISO/IEC 25012):
-valida esquemas y rangos físicos, económicos y geoespaciales sin realizar borrado
-silencioso, enviando todo registro inválido a data/cuarentena/ con motivo_rechazo.
+Cumple los criterios E1-E3 de Ingeniería de Datos y Calidad en SI (ISO/IEC 25012):
+valida esquemas cacheados en memoria sin borrado silencioso, enviando anomalías a
+data/cuarentena/ con motivo_rechazo y entregando DataFrames en memoria para E3.
 """
 
 from pathlib import Path
@@ -96,6 +96,11 @@ def crear_esquema_geoespacial() -> pa.DataFrameSchema:
     )
 
 
+ESQUEMA_CLIMA_CACHE: pa.DataFrameSchema = crear_esquema_clima()
+ESQUEMA_PRECIOS_CACHE: pa.DataFrameSchema = crear_esquema_precios()
+ESQUEMA_GEO_CACHE: pa.DataFrameSchema = crear_esquema_geoespacial()
+
+
 def construir_motivos_rechazo(tabla_fallos: pd.DataFrame) -> pd.Series:
     """Agrupa los fallos detectados por Pandera por índice de fila en texto claro."""
     fallos_fila = tabla_fallos.dropna(subset=["index"]).copy()
@@ -117,7 +122,7 @@ def validar_lote_bronce(
         df_cuarentena_vacio = pd.DataFrame(
             columns=[*list(df_bronce.columns), "motivo_rechazo"]
         )
-        return df_bronce.copy(), df_cuarentena_vacio
+        return df_bronce, df_cuarentena_vacio
     except pa.errors.SchemaErrors as error_esquema:
         resumen_motivos = construir_motivos_rechazo(error_esquema.failure_cases)
         idx_malos = resumen_motivos.index
@@ -132,8 +137,8 @@ def procesar_archivo_bronce(
     esquema: pa.DataFrameSchema,
     ruta_plata: Path,
     ruta_cuarentena: Path,
-) -> dict[str, int]:
-    """Valida un archivo de Bronce y persiste sus salidas en Plata y Cuarentena."""
+) -> tuple[dict[str, int], pd.DataFrame]:
+    """Valida un archivo Bronce, persiste salidas LF y devuelve el DataFrame en memoria."""
     DATA_PLATA.mkdir(parents=True, exist_ok=True)
     DATA_CUARENTENA.mkdir(parents=True, exist_ok=True)
     df_bronce = pd.read_csv(ruta_bronce)
@@ -142,36 +147,48 @@ def procesar_archivo_bronce(
     df_cuarentena.to_csv(
         ruta_cuarentena, index=False, encoding="utf-8", lineterminator="\n"
     )
-    return {
+    conteos = {
         "bronce": len(df_bronce),
         "plata": len(df_plata),
         "cuarentena": len(df_cuarentena),
     }
+    return conteos, df_plata
+
+
+def ejecutar_puerta_calidad_en_memoria() -> (
+    tuple[dict[str, dict[str, int]], dict[str, pd.DataFrame]]
+):
+    """Ejecuta la validación con esquemas cacheados y retorna conteos y DataFrames."""
+    c_cl, df_cl = procesar_archivo_bronce(
+        ARCHIVO_CLIMA_MENSUAL,
+        ESQUEMA_CLIMA_CACHE,
+        ARCHIVO_PLATA_CLIMA,
+        ARCHIVO_CUARENTENA_CLIMA,
+    )
+    c_pr, df_pr = procesar_archivo_bronce(
+        ARCHIVO_PRECIOS_MENSUAL,
+        ESQUEMA_PRECIOS_CACHE,
+        ARCHIVO_PLATA_PRECIOS,
+        ARCHIVO_CUARENTENA_PRECIOS,
+    )
+    conteos = {"clima": c_cl, "precios": c_pr}
+    marcos = {"clima": df_cl, "precios": df_pr}
+    if ARCHIVO_GEOESPACIAL_NODOS.exists():
+        c_geo, df_geo = procesar_archivo_bronce(
+            ARCHIVO_GEOESPACIAL_NODOS,
+            ESQUEMA_GEO_CACHE,
+            ARCHIVO_PLATA_GEOESPACIAL,
+            ARCHIVO_CUARENTENA_GEOESPACIAL,
+        )
+        conteos["geoespacial"] = c_geo
+        marcos["geoespacial"] = df_geo
+    return conteos, marcos
 
 
 def ejecutar_puerta_calidad() -> dict[str, dict[str, int]]:
     """Ejecuta la puerta de calidad sobre clima, precios y nodos geoespaciales."""
-    res_clima = procesar_archivo_bronce(
-        ARCHIVO_CLIMA_MENSUAL,
-        crear_esquema_clima(),
-        ARCHIVO_PLATA_CLIMA,
-        ARCHIVO_CUARENTENA_CLIMA,
-    )
-    res_precios = procesar_archivo_bronce(
-        ARCHIVO_PRECIOS_MENSUAL,
-        crear_esquema_precios(),
-        ARCHIVO_PLATA_PRECIOS,
-        ARCHIVO_CUARENTENA_PRECIOS,
-    )
-    resultado = {"clima": res_clima, "precios": res_precios}
-    if ARCHIVO_GEOESPACIAL_NODOS.exists():
-        resultado["geoespacial"] = procesar_archivo_bronce(
-            ARCHIVO_GEOESPACIAL_NODOS,
-            crear_esquema_geoespacial(),
-            ARCHIVO_PLATA_GEOESPACIAL,
-            ARCHIVO_CUARENTENA_GEOESPACIAL,
-        )
-    return resultado
+    conteos, _ = ejecutar_puerta_calidad_en_memoria()
+    return conteos
 
 
 if __name__ == "__main__":

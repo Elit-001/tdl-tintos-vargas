@@ -1,17 +1,17 @@
-"""Módulo de Procesamiento Geoespacial y Costos Logísticos con GeoPandas (E2).
+"""Módulo de Procesamiento Geoespacial Vectorizado con GeoPandas (Entregas E2 y E3).
 
-Cumple el criterio E2 de Ingeniería de Datos: reproyecta coordenadas de EPSG:4326
-a EPSG:32613 (UTM Zona 13N para Colima), calcula distancias reales en kilómetros
-entre productores y compradores ancla, optimiza el margen de intermediación por
-lote de 400 kg e inyecta trazabilidad completa de linaje (Bronce -> Plata -> Oro).
+Cumple los criterios E2 y E3 de Ingeniería de Datos: reproyecta EPSG:4326 a
+EPSG:32613 (UTM Zona 13N) de forma vectorizada sin .iterrows(), calcula costos
+logísticos mediante producto cartesiano en NumPy y cachea metadatos SHA-256.
 """
 
 import json
 from pathlib import Path
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
-from shapely.geometry import LineString, Point
+import shapely
 
 from config import (
     ARCHIVO_GEOESPACIAL_NODOS,
@@ -35,9 +35,22 @@ PRECIOS_BASE_CULTIVO_COLIMA: dict[str, float] = {
     "Aguacate Hass": 58.00,
 }
 
+_CACHE_META_BRONCE: dict[str, tuple[int, int, dict[str, str]]] = {}
+
+
+def limpiar_cache_metadatos_bronce() -> None:
+    """Limpia la caché en memoria de metadatos SHA-256 (útil para benchmarks)."""
+    _CACHE_META_BRONCE.clear()
+
 
 def obtener_metadatos_linaje_bronce(ruta_bronce: Path) -> dict[str, str]:
-    """Lee y sincroniza la ficha .meta.json de un archivo crudo en Capa Bronce."""
+    """Lee y cachea en memoria la ficha .meta.json evitando lecturas redundantes."""
+    clave = str(ruta_bronce.resolve())
+    estat = ruta_bronce.stat()
+    entrada_cache = _CACHE_META_BRONCE.get(clave)
+    if entrada_cache and entrada_cache[:2] == (estat.st_mtime_ns, estat.st_size):
+        return entrada_cache[2]
+
     ruta_meta = ruta_bronce.with_name(f"{ruta_bronce.name}.meta.json")
     hash_actual = ExtractorEtico.calcular_hash_sha256(ruta_bronce)
     if not ruta_meta.exists():
@@ -48,6 +61,8 @@ def obtener_metadatos_linaje_bronce(ruta_bronce: Path) -> dict[str, str]:
             ruta_bronce, str(datos_meta.get("fuente_origen", "capa_bronce_agropulse"))
         )
         datos_meta = json.loads(ruta_meta.read_text(encoding="utf-8"))
+    estat_fin = ruta_bronce.stat()
+    _CACHE_META_BRONCE[clave] = (estat_fin.st_mtime_ns, estat_fin.st_size, datos_meta)
     return datos_meta
 
 
@@ -68,84 +83,96 @@ def adjuntar_columnas_linaje(
 
 
 def reproyectar_nodos_utm(df_nodos: pd.DataFrame) -> gpd.GeoDataFrame:
-    """Convierte la tabla de nodos a GeoDataFrame WGS84 y reproyecta a UTM 13N."""
-    geometrias = [
-        Point(float(lon), float(lat))
-        for lon, lat in zip(df_nodos["longitud"], df_nodos["latitud"], strict=False)
-    ]
+    """Convierte nodos a GeoDataFrame WGS84 de forma vectorizada y pasa a UTM 13N."""
+    geometrias = gpd.points_from_xy(
+        df_nodos["longitud"], df_nodos["latitud"], crs=EPSG_WGS84
+    )
     gdf_wgs84 = gpd.GeoDataFrame(df_nodos.copy(), geometry=geometrias, crs=EPSG_WGS84)
     return gdf_wgs84.to_crs(EPSG_UTM_COLIMA)
 
 
-def calcular_economia_ruta(
-    fila_prod: pd.Series, fila_comp: pd.Series, dist_lineal_km: float
-) -> dict[str, str | float | bool]:
-    """Calcula distancia vial, costo de flete y spread B2B para un lote de 400 kg."""
-    dist_vial_km = max(1.2, round(dist_lineal_km * FACTOR_SINUOSIDAD_VIAL, 2))
-    flete_lote = round(
-        COSTO_MANIOBRA_LOTE_MXN + (dist_vial_km * COSTO_FLETE_MXN_POR_KM), 2
-    )
-    flete_kg = round(flete_lote / PESO_LOTE_CONSOLIDADO_KG, 2)
-    cultivo = str(fila_prod["cultivo_referencia"])
-    precio_base = PRECIOS_BASE_CULTIVO_COLIMA.get(cultivo, 22.0)
-    prima = float(fila_comp["prima_comercial_pct"]) / 100.0
-    precio_venta = round(precio_base * (1.0 + prima), 2)
-    precio_compra = round(precio_base * 0.84, 2)
-    spread_kg = round(precio_venta - precio_compra - flete_kg, 2)
-    return {
-        "id_ruta": f"{fila_prod['id_nodo']}_{fila_comp['id_nodo']}",
-        "nodo_productor": str(fila_prod["nombre_nodo"]),
-        "municipio_origen": str(fila_prod["municipio"]),
-        "cultivo_origen": cultivo,
-        "lat_productor": float(fila_prod["latitud"]),
-        "lon_productor": float(fila_prod["longitud"]),
-        "comprador_ancla": str(fila_comp["nombre_nodo"]),
-        "municipio_destino": str(fila_comp["municipio"]),
-        "lat_comprador": float(fila_comp["latitud"]),
-        "lon_comprador": float(fila_comp["longitud"]),
-        "lote_consolidado_kg": PESO_LOTE_CONSOLIDADO_KG,
-        "distancia_lineal_km": round(max(0.8, dist_lineal_km), 2),
-        "distancia_vial_km": dist_vial_km,
-        "costo_flete_lote_400kg_mxn": flete_lote,
-        "costo_flete_mxn_kg": flete_kg,
-        "precio_compra_productor_mxn_kg": precio_compra,
-        "precio_venta_comprador_mxn_kg": precio_venta,
-        "spread_neto_mxn_kg": spread_kg,
-        "margen_lote_400kg_mxn": round(spread_kg * PESO_LOTE_CONSOLIDADO_KG, 2),
-    }
+def _extraer_tabla_coordenadas_utm(gdf_sub: gpd.GeoDataFrame) -> pd.DataFrame:
+    """Extrae vectores X/Y en metros desde la geometría reproyectada en UTM 13N."""
+    df_xy = pd.DataFrame(gdf_sub.drop(columns=["geometry"])).reset_index(drop=True)
+    df_xy["utm_x"] = gdf_sub.geometry.x.to_numpy()
+    df_xy["utm_y"] = gdf_sub.geometry.y.to_numpy()
+    return df_xy
 
 
 def construir_matriz_rutas_colima(gdf_utm: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
-    """Calcula las 16 rutas productor-comprador en UTM 13N y etiqueta la óptima."""
-    prods = gdf_utm[gdf_utm["tipo_nodo"] == "PRODUCTOR_ORIGEN"].reset_index(drop=True)
-    comps = gdf_utm[gdf_utm["tipo_nodo"] == "COMPRADOR_ANCLA"].reset_index(drop=True)
-    registros: list[dict[str, str | float | bool]] = []
-    lineas_wgs84: list[LineString] = []
-    for _, prod in prods.iterrows():
-        for _, comp in comps.iterrows():
-            dist_km = float(prod.geometry.distance(comp.geometry)) / 1000.0
-            info_ruta = calcular_economia_ruta(prod, comp, dist_km)
-            registros.append(info_ruta)
-            lineas_wgs84.append(
-                LineString(
-                    [
-                        (float(prod["longitud"]), float(prod["latitud"])),
-                        (float(comp["longitud"]), float(comp["latitud"])),
-                    ]
-                )
-            )
-    df_rutas = pd.DataFrame(registros)
+    """Calcula vectorizadamente las 16 rutas productor-comprador sin .iterrows()."""
+    prods = _extraer_tabla_coordenadas_utm(
+        gdf_utm[gdf_utm["tipo_nodo"] == "PRODUCTOR_ORIGEN"]
+    )
+    comps = _extraer_tabla_coordenadas_utm(
+        gdf_utm[gdf_utm["tipo_nodo"] == "COMPRADOR_ANCLA"]
+    )
+    pares = pd.merge(prods, comps, how="cross", suffixes=("_prod", "_comp"))
+    dist_km = np.hypot(
+        pares["utm_x_prod"].to_numpy() - pares["utm_x_comp"].to_numpy(),
+        pares["utm_y_prod"].to_numpy() - pares["utm_y_comp"].to_numpy(),
+    ) / 1000.0
+    dist_vial = np.maximum(1.2, np.round(dist_km * FACTOR_SINUOSIDAD_VIAL, 2))
+    flete_lote = np.round(
+        COSTO_MANIOBRA_LOTE_MXN + (dist_vial * COSTO_FLETE_MXN_POR_KM), 2
+    )
+    flete_kg = np.round(flete_lote / PESO_LOTE_CONSOLIDADO_KG, 2)
+    precios_base = (
+        pares["cultivo_referencia_prod"].map(PRECIOS_BASE_CULTIVO_COLIMA).fillna(22.0).to_numpy()
+    )
+    primas = pares["prima_comercial_pct_comp"].to_numpy(dtype=float) / 100.0
+    p_venta = np.round(precios_base * (1.0 + primas), 2)
+    p_compra = np.round(precios_base * 0.84, 2)
+    spread_kg = np.round(p_venta - p_compra - flete_kg, 2)
+
+    df_rutas = pd.DataFrame(
+        {
+            "id_ruta": pares["id_nodo_prod"] + "_" + pares["id_nodo_comp"],
+            "nodo_productor": pares["nombre_nodo_prod"],
+            "municipio_origen": pares["municipio_prod"],
+            "cultivo_origen": pares["cultivo_referencia_prod"],
+            "lat_productor": pares["latitud_prod"].astype(float),
+            "lon_productor": pares["longitud_prod"].astype(float),
+            "comprador_ancla": pares["nombre_nodo_comp"],
+            "municipio_destino": pares["municipio_comp"],
+            "lat_comprador": pares["latitud_comp"].astype(float),
+            "lon_comprador": pares["longitud_comp"].astype(float),
+            "lote_consolidado_kg": PESO_LOTE_CONSOLIDADO_KG,
+            "distancia_lineal_km": np.round(np.maximum(0.8, dist_km), 2),
+            "distancia_vial_km": dist_vial,
+            "costo_flete_lote_400kg_mxn": flete_lote,
+            "costo_flete_mxn_kg": flete_kg,
+            "precio_compra_productor_mxn_kg": p_compra,
+            "precio_venta_comprador_mxn_kg": p_venta,
+            "spread_neto_mxn_kg": spread_kg,
+            "margen_lote_400kg_mxn": np.round(spread_kg * PESO_LOTE_CONSOLIDADO_KG, 2),
+        }
+    )
     idx_opt = df_rutas.groupby("nodo_productor")["spread_neto_mxn_kg"].idxmax()
     df_rutas["es_ruta_optima"] = df_rutas.index.isin(idx_opt)
     df_rutas = adjuntar_columnas_linaje(df_rutas, ARCHIVO_GEOESPACIAL_NODOS, "GEO-E2")
+    coords_lineas = np.stack(
+        [
+            np.column_stack([df_rutas["lon_productor"], df_rutas["lat_productor"]]),
+            np.column_stack([df_rutas["lon_comprador"], df_rutas["lat_comprador"]]),
+        ],
+        axis=1,
+    )
+    lineas_wgs84 = shapely.linestrings(coords_lineas)
     return gpd.GeoDataFrame(df_rutas, geometry=lineas_wgs84, crs=EPSG_WGS84)
 
 
-def ejecutar_procesamiento_geoespacial() -> dict[str, int | float]:
-    """Ejecuta el cálculo geoespacial completo y persiste CSV y GeoJSON en Capa Oro."""
+def procesar_geoespacial_en_memoria(
+    df_plata_geo: pd.DataFrame | None = None,
+) -> tuple[dict[str, int | float], pd.DataFrame]:
+    """Ejecuta el cálculo geoespacial vectorizado y devuelve resumen y DataFrame."""
     DATA_ORO.mkdir(parents=True, exist_ok=True)
-    df_plata_geo = pd.read_csv(ARCHIVO_PLATA_GEOESPACIAL)
-    gdf_utm = reproyectar_nodos_utm(df_plata_geo)
+    df_nodos = (
+        df_plata_geo
+        if df_plata_geo is not None
+        else pd.read_csv(ARCHIVO_PLATA_GEOESPACIAL)
+    )
+    gdf_utm = reproyectar_nodos_utm(df_nodos)
     gdf_rutas = construir_matriz_rutas_colima(gdf_utm)
 
     df_csv = pd.DataFrame(gdf_rutas.drop(columns=["geometry"]))
@@ -153,8 +180,7 @@ def ejecutar_procesamiento_geoespacial() -> dict[str, int | float]:
         ARCHIVO_ORO_RUTAS_FLETE, index=False, encoding="utf-8", lineterminator="\n"
     )
     gdf_rutas.to_file(ARCHIVO_ORO_GEOJSON_RUTAS, driver="GeoJSON")
-
-    return {
+    resumen = {
         "rutas_calculadas": len(df_csv),
         "distancia_media_km": round(float(df_csv["distancia_vial_km"].mean()), 2),
         "flete_medio_mxn_kg": round(float(df_csv["costo_flete_mxn_kg"].mean()), 2),
@@ -162,9 +188,15 @@ def ejecutar_procesamiento_geoespacial() -> dict[str, int | float]:
             float(df_csv[df_csv["es_ruta_optima"]]["spread_neto_mxn_kg"].mean()), 2
         ),
     }
+    return resumen, df_csv
+
+
+def ejecutar_procesamiento_geoespacial() -> dict[str, int | float]:
+    """Punto de entrada estándar para generar rutas_flete_colima.csv y .geojson."""
+    resumen, _ = procesar_geoespacial_en_memoria()
+    return resumen
 
 
 if __name__ == "__main__":
     resumen = ejecutar_procesamiento_geoespacial()
     print(f"Procesamiento geoespacial en Capa Oro completado: {resumen}")
-

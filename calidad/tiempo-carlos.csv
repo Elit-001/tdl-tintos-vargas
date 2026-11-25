@@ -13,3 +13,7 @@ fecha,inicio,fin,interrupcion_min,fase,actividad
 2026-11-16,16:30,19:30,15,Codificación,Implementacion de extractores/extractor_geoespacial.py y pipeline/geoespacial.py con GeoPandas EPSG 4326 a EPSG 32613 UTM 13N
 2026-11-17,17:00,19:45,10,Codificación,Inyeccion de las 5 columnas de linaje Bronce-Oro en pipeline/integracion.py y visualizacion cartografica de fletes en tablero/app.py
 2026-11-18,16:00,18:30,10,Pruebas,Creacion de pruebas unitarias de linaje SHA-256 y distancias geoespaciales en tests/test_pipeline_e2.py y validacion ruff pytest pip-audit
+2026-11-22,16:00,18:15,10,Diseño,Perfilamiento base con perf_counter y tracemalloc identificando cuellos de botella de iterrows y relecturas CSV en pipeline E2
+2026-11-23,16:30,19:40,15,Codificación,Vectorizacion matricial de limpieza.py y geoespacial.py cache en memoria de hashes SHA-256 y flujo sin relecturas en orquestador_e1.py
+2026-11-24,17:00,19:30,10,Codificación,Desarrollo de pipeline/publicacion.py y pipeline/benchmark_e3.py generando dataset abierto CC BY 4.0 en CSV LF y Parquet
+2026-11-25,10:00,12:45,10,Revisión,Ejecucion de auditoria formal E3 como Quality Lead en docs/auditoria/auditoria-iso-E3.md redaccion de datasheet.md y test_pipeline_e3.py

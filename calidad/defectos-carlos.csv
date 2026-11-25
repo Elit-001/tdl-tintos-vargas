@@ -10,3 +10,6 @@ numero,fecha,tipo,fase_introducido,fase_eliminado,minutos_correccion,defecto_ori
 9,2026-11-16,80-Funcion,Codificación,Pruebas,19,N/A,Calculo preliminar de distancia en GeoPandas operaba en grados geograficos EPSG 4326; se reproyecto a EPSG 32613 UTM Zona 13N en metros
 10,2026-11-17,70-Datos,Codificación,Pruebas,15,N/A,Hash SHA-256 en .meta.json quedaba desfasado si un CSV de Bronce se regeneraba manualmente; se agrego verificacion y sincronizacion automatica
 11,2026-11-18,50-Interfaz,Codificación,Pruebas,12,10,El archivo pronosticos_e1.csv en data/oro carecia de las 5 columnas de linaje; se integro actualizar_linaje_pronosticos en integracion.py
+12,2026-11-23,70-Datos,Codificación,Pruebas,16,N/A,Agrupacion groupby sobre columnas category sin observed=True emitia FutureWarning y creaba combinaciones vacias; se fijo observed=True
+13,2026-11-24,80-Funcion,Codificación,Pruebas,14,N/A,Conversion directa a float32 antes de escribir CSV alteraba el redondeo decimal en texto; se restringio float32 exclusivamente al archivo Parquet
+14,2026-11-25,60-Chequeo,Pruebas,Revisión,11,N/A,Primera corrida fria en benchmark_e3 sesgaba la media por importacion perezosa; se agrego corrida previa de calentamiento antes de promediar
