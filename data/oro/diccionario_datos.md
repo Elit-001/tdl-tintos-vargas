@@ -8,26 +8,26 @@
 
 | Columna | Tipo Python | Unidad / Escala | Completitud | Dominio / Rango Observado | Descripción |
 | :--- | :--- | :--- | :---: | :--- | :--- |
-| `periodo_mensual` | `object` | Año-Mes ISO (YYYY-MM) | 100.0% | Valores: 2022-11, 2022-12, 2023-01 | Clave temporal de integración |
-| `cultivo` | `object` | Texto categórico | 100.0% | Valores: Aguacate Hass, Limón Mexicano, Papaya Maradol | Cultivo agrocomercial de Colima |
-| `central_abasto` | `object` | Texto categórico | 100.0% | Valores: CDMX-Iztapalapa, Guadalajara, Monterrey | Mercado mayorista nacional de destino |
-| `variedad_sniim` | `object` | Texto | 100.0% | Valores: Aguacate Hass - Primera, Limón c/semilla # 2 - Primera, Papaya M | Denominación comercial oficial en catálogo SNIIM |
+| `periodo_mensual` | `str` | Año-Mes ISO (YYYY-MM) | 100.0% | Valores: 2022-11, 2022-12, 2023-01 | Clave temporal de integración |
+| `cultivo` | `str` | Texto categórico | 100.0% | Valores: Aguacate Hass, Limón Mexicano, Papaya Maradol | Cultivo agrocomercial de Colima |
+| `central_abasto` | `str` | Texto categórico | 100.0% | Valores: CDMX-Iztapalapa, Guadalajara, Monterrey | Mercado mayorista nacional de destino |
+| `variedad_sniim` | `str` | Texto | 100.0% | Valores: Aguacate Hass - Primera, Limón c/semilla # 2 - Primera, Papaya M | Denominación comercial oficial en catálogo SNIIM |
 | `precio_mayorista_mxn_kg` | `float64` | MXN / kg | 100.0% | [11.61, 94.59] (media=32.61) | Precio mayorista mensual limpio |
 | `volatilidad_mensual_pct` | `float64` | Porcentaje (%) | 100.0% | [6.18, 20.89] (media=13.88) | Coeficiente de variación mensual |
 | `costo_logistico_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.35, 6.64] (media=3.61) | Flete refrigerado/ventilado estimado |
 | `margen_comercial_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.32, 50.49] (media=12.79) | Margen neto descontando origen y flete |
 | `margen_comercial_pct` | `float64` | Porcentaje (%) | 100.0% | [8.06, 54.09] (media=35.99) | Margen comercial neto relativo |
-| `fecha_captura_precios` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-25 | Indicador o atributo (fecha_captura_precios) |
-| `fuente_origen_precios` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: sniim_web_verificado | Indicador o atributo (fuente_origen_precios) |
+| `fecha_captura_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-26 | Indicador o atributo (fecha_captura_precios) |
+| `fuente_origen_precios` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: sniim_web_verificado | Indicador o atributo (fuente_origen_precios) |
 | `es_atipico_precio` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador o atributo (es_atipico_precio) |
 | `precio_mayorista_mxn_kg_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.43) | Indicador o atributo (precio_mayorista_mxn_kg_norm) |
 | `volatilidad_mensual_pct_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.52) | Indicador o atributo (volatilidad_mensual_pct_norm) |
 | `costo_logistico_mxn_kg_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.43) | Indicador o atributo (costo_logistico_mxn_kg_norm) |
 | `margen_comercial_mxn_kg_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.46) | Indicador o atributo (margen_comercial_mxn_kg_norm) |
 | `margen_comercial_pct_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.58) | Indicador o atributo (margen_comercial_pct_norm) |
-| `categoria_precio` | `object` | Ordinal (Bajo/Medio/Alto) | 100.0% | Valores: Bajo, Medio, Alto | Discretización por terciles |
-| `nivel_volatilidad` | `object` | Ordinal (Estable/Moderada/Alta) | 100.0% | Valores: Moderada, Alta, Estable | Riesgo de cotización |
-| `zona_agricola` | `object` | Texto categórico | 100.0% | Valores: Tecomán, Armería, Manzanillo | Región agroproductora de origen en Colima |
+| `categoria_precio` | `str` | Ordinal (Bajo/Medio/Alto) | 100.0% | Valores: Bajo, Medio, Alto | Discretización por terciles |
+| `nivel_volatilidad` | `str` | Ordinal (Estable/Moderada/Alta) | 100.0% | Valores: Moderada, Alta, Estable | Riesgo de cotización |
+| `zona_agricola` | `str` | Texto categórico | 100.0% | Valores: Tecomán, Armería, Manzanillo | Región agroproductora de origen en Colima |
 | `latitud` | `float64` | Escala [0, 1] / Metadato | 100.0% | [18.91, 19.05] (media=18.95) | Indicador o atributo (latitud) |
 | `longitud` | `float64` | Escala [0, 1] / Metadato | 100.0% | [-104.31, -103.87] (media=-104.00) | Indicador o atributo (longitud) |
 | `temperatura_max_c` | `float64` | Grados Celsius (°C) | 100.0% | [28.06, 33.56] (media=30.43) | Temperatura máxima media mensual |
@@ -35,33 +35,33 @@
 | `precipitacion_acumulada_mm` | `float64` | Milímetros (mm) | 100.0% | [0.00, 385.91] (media=74.64) | Lluvia acumulada mensual |
 | `evapotranspiracion_mm` | `float64` | Milímetros (mm) | 100.0% | [102.23, 171.73] (media=132.93) | Evapotranspiración FAO ET0 acumulada |
 | `humedad_relativa_pct` | `float64` | Porcentaje (%) | 100.0% | [61.68, 90.10] (media=77.52) | Humedad relativa media mensual |
-| `fecha_captura_clima` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-25 | Indicador o atributo (fecha_captura_clima) |
-| `fuente_origen_clima` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: open_meteo_archive_api | Indicador o atributo (fuente_origen_clima) |
+| `fecha_captura_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 2026-11-26 | Indicador o atributo (fecha_captura_clima) |
+| `fuente_origen_clima` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: open_meteo_archive_api | Indicador o atributo (fuente_origen_clima) |
 | `es_atipico_clima` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador o atributo (es_atipico_clima) |
 | `temperatura_max_c_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.42) | Indicador o atributo (temperatura_max_c_norm) |
 | `temperatura_media_c_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.52) | Indicador o atributo (temperatura_media_c_norm) |
 | `precipitacion_acumulada_mm_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.23) | Indicador o atributo (precipitacion_acumulada_mm_norm) |
 | `evapotranspiracion_mm_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.44) | Indicador o atributo (evapotranspiracion_mm_norm) |
 | `humedad_relativa_pct_norm` | `float64` | Escala [0, 1] / Metadato | 100.0% | [0.00, 1.00] (media=0.51) | Indicador o atributo (humedad_relativa_pct_norm) |
-| `linaje_sha256_clima_bronce` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: 386fa43eb665d73d8a6bf80e71740e23f71a5294cc94f870651a8cdf9cb6f926 | Indicador o atributo (linaje_sha256_clima_bronce) |
-| `linaje_id_registro` | `object` | Identificador único | 100.0% | Valores: ORO-ANL-00001, ORO-ANL-00002, ORO-ANL-00003 | ID determinista del registro en Oro |
-| `linaje_archivo_bronce` | `object` | Nombre de archivo | 100.0% | Valores: precios_agro_historico_mensual.csv | Archivo origen en data/bronce/ |
-| `linaje_sha256_bronce` | `object` | Hash SHA-256 (64 hex) | 100.0% | Valores: 432562b2249b765b8daec0db056027e7a11e6328e1c6e70d7a687caf7534daab | Firma criptográfica desde .meta.json |
-| `linaje_fecha_ingesta_utc` | `object` | ISO-8601 UTC | 100.0% | Valores: 2026-11-25T18:30:23.397643+00:00 | Timestamp de captura en Capa Bronce |
-| `linaje_fuente` | `object` | Texto identificador | 100.0% | Valores: sniim_web_verificado | Fuente de extracción verificada |
+| `linaje_sha256_clima_bronce` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 67be16699e9d0372d65d66dea0ab3bd71e750749cec81e4383af2f01e6e7e69a | Indicador o atributo (linaje_sha256_clima_bronce) |
+| `linaje_id_registro` | `str` | Identificador único | 100.0% | Valores: ORO-ANL-00001, ORO-ANL-00002, ORO-ANL-00003 | ID determinista del registro en Oro |
+| `linaje_archivo_bronce` | `str` | Nombre de archivo | 100.0% | Valores: precios_agro_historico_mensual.csv | Archivo origen en data/bronce/ |
+| `linaje_sha256_bronce` | `str` | Hash SHA-256 (64 hex) | 100.0% | Valores: 091f14e37c866aaa3b791b3d144a9e3a815fa2046ee47a00e668ee3fd19c79bc | Firma criptográfica desde .meta.json |
+| `linaje_fecha_ingesta_utc` | `str` | ISO-8601 UTC | 100.0% | Valores: 2026-11-26T18:11:43.309926+00:00 | Timestamp de captura en Capa Bronce |
+| `linaje_fuente` | `str` | Texto identificador | 100.0% | Valores: sniim_web_verificado | Fuente de extracción verificada |
 
 ## 2. Tabla Geoespacial y Logística (E2): `rutas_flete_colima.csv`
 
 | Columna | Tipo Python | Unidad / Escala | Completitud | Dominio / Rango Observado | Descripción |
 | :--- | :--- | :--- | :---: | :--- | :--- |
-| `id_ruta` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: PROD-01_COMP-01, PROD-01_COMP-02, PROD-01_COMP-03 | Indicador o atributo (id_ruta) |
-| `nodo_productor` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: Tecomán, Armería, Manzanillo | Indicador o atributo (nodo_productor) |
-| `municipio_origen` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: Tecomán, Armería, Manzanillo | Indicador o atributo (municipio_origen) |
-| `cultivo_origen` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: Limón Mexicano, Papaya Maradol, Plátano Chiapas | Indicador o atributo (cultivo_origen) |
+| `id_ruta` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: PROD-01_COMP-01, PROD-01_COMP-02, PROD-01_COMP-03 | Indicador o atributo (id_ruta) |
+| `nodo_productor` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: Tecomán, Armería, Manzanillo | Indicador o atributo (nodo_productor) |
+| `municipio_origen` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: Tecomán, Armería, Manzanillo | Indicador o atributo (municipio_origen) |
+| `cultivo_origen` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: Limón Mexicano, Papaya Maradol, Plátano Chiapas | Indicador o atributo (cultivo_origen) |
 | `lat_productor` | `float64` | Escala [0, 1] / Metadato | 100.0% | [18.91, 19.21] (media=19.03) | Indicador o atributo (lat_productor) |
 | `lon_productor` | `float64` | Escala [0, 1] / Metadato | 100.0% | [-104.32, -103.81] (media=-103.99) | Indicador o atributo (lon_productor) |
-| `comprador_ancla` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: Walmart Colima, Empacadora San José, Agroindustriales de Colima | Indicador o atributo (comprador_ancla) |
-| `municipio_destino` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: Colima, Tecomán, Villa de Álvarez | Indicador o atributo (municipio_destino) |
+| `comprador_ancla` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: Walmart Colima, Empacadora San José, Agroindustriales de Colima | Indicador o atributo (comprador_ancla) |
+| `municipio_destino` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: Colima, Tecomán, Villa de Álvarez | Indicador o atributo (municipio_destino) |
 | `lat_comprador` | `float64` | Escala [0, 1] / Metadato | 100.0% | [18.92, 19.26] (media=19.09) | Indicador o atributo (lat_comprador) |
 | `lon_comprador` | `float64` | Escala [0, 1] / Metadato | 100.0% | [-103.96, -103.72] (media=-103.83) | Indicador o atributo (lon_comprador) |
 | `lote_consolidado_kg` | `float64` | Escala [0, 1] / Metadato | 100.0% | [400.00, 400.00] (media=400.00) | Indicador o atributo (lote_consolidado_kg) |
@@ -74,40 +74,40 @@
 | `spread_neto_mxn_kg` | `float64` | Escala [0, 1] / Metadato | 100.0% | [-0.95, 11.83] (media=3.96) | Indicador o atributo (spread_neto_mxn_kg) |
 | `margen_lote_400kg_mxn` | `float64` | Escala [0, 1] / Metadato | 100.0% | [-380.00, 4732.00] (media=1583.00) | Indicador o atributo (margen_lote_400kg_mxn) |
 | `es_ruta_optima` | `bool` | Escala [0, 1] / Metadato | 100.0% | Valores: False, True | Indicador o atributo (es_ruta_optima) |
-| `linaje_id_registro` | `object` | Identificador único | 100.0% | Valores: GEO-E2-00001, GEO-E2-00002, GEO-E2-00003 | ID determinista del registro en Oro |
-| `linaje_archivo_bronce` | `object` | Nombre de archivo | 100.0% | Valores: nodos_geoespaciales_colima.csv | Archivo origen en data/bronce/ |
-| `linaje_sha256_bronce` | `object` | Hash SHA-256 (64 hex) | 100.0% | Valores: 2649443860f91284b534030e31191b543dfeca8a2c1d18994805fb807fd85b2d | Firma criptográfica desde .meta.json |
-| `linaje_fecha_ingesta_utc` | `object` | ISO-8601 UTC | 100.0% | Valores: 2026-11-25T18:30:23.877922+00:00 | Timestamp de captura en Capa Bronce |
-| `linaje_fuente` | `object` | Texto identificador | 100.0% | Valores: osm_catalogo_referencia_colima | Fuente de extracción verificada |
+| `linaje_id_registro` | `str` | Identificador único | 100.0% | Valores: GEO-E2-00001, GEO-E2-00002, GEO-E2-00003 | ID determinista del registro en Oro |
+| `linaje_archivo_bronce` | `str` | Nombre de archivo | 100.0% | Valores: nodos_geoespaciales_colima.csv | Archivo origen en data/bronce/ |
+| `linaje_sha256_bronce` | `str` | Hash SHA-256 (64 hex) | 100.0% | Valores: eeb892643505b5e3b77c0ddfa6d86d7c01c608fc72119c40d813fa8bc68e2764 | Firma criptográfica desde .meta.json |
+| `linaje_fecha_ingesta_utc` | `str` | ISO-8601 UTC | 100.0% | Valores: 2026-11-26T18:11:44.000304+00:00 | Timestamp de captura en Capa Bronce |
+| `linaje_fuente` | `str` | Texto identificador | 100.0% | Valores: osm_catalogo_referencia_colima | Fuente de extracción verificada |
 
 ## 3. Dataset Curado Abierto para Terceros (E3): `data/publicado/agropulse_colima_curado.csv`
 
 | Columna | Tipo Python | Unidad / Escala | Completitud | Dominio / Rango Observado | Descripción |
 | :--- | :--- | :--- | :---: | :--- | :--- |
-| `periodo_mensual` | `object` | Año-Mes ISO (YYYY-MM) | 100.0% | Valores: 2022-11, 2022-12, 2023-01 | Clave temporal de integración |
-| `cultivo` | `object` | Texto categórico | 100.0% | Valores: Aguacate Hass, Limón Mexicano, Papaya Maradol | Cultivo agrocomercial de Colima |
-| `variedad_sniim` | `object` | Texto | 100.0% | Valores: Aguacate Hass - Primera, Limón c/semilla # 2 - Primera, Papaya M | Denominación comercial oficial en catálogo SNIIM |
-| `zona_agricola` | `object` | Texto categórico | 100.0% | Valores: Tecomán, Armería, Manzanillo | Región agroproductora de origen en Colima |
-| `central_abasto` | `object` | Texto categórico | 100.0% | Valores: CDMX-Iztapalapa, Guadalajara, Monterrey | Mercado mayorista nacional de destino |
+| `periodo_mensual` | `str` | Año-Mes ISO (YYYY-MM) | 100.0% | Valores: 2022-11, 2022-12, 2023-01 | Clave temporal de integración |
+| `cultivo` | `str` | Texto categórico | 100.0% | Valores: Aguacate Hass, Limón Mexicano, Papaya Maradol | Cultivo agrocomercial de Colima |
+| `variedad_sniim` | `str` | Texto | 100.0% | Valores: Aguacate Hass - Primera, Limón c/semilla # 2 - Primera, Papaya M | Denominación comercial oficial en catálogo SNIIM |
+| `zona_agricola` | `str` | Texto categórico | 100.0% | Valores: Tecomán, Armería, Manzanillo | Región agroproductora de origen en Colima |
+| `central_abasto` | `str` | Texto categórico | 100.0% | Valores: CDMX-Iztapalapa, Guadalajara, Monterrey | Mercado mayorista nacional de destino |
 | `precio_mayorista_mxn_kg` | `float64` | MXN / kg | 100.0% | [11.61, 94.59] (media=32.61) | Precio mayorista mensual limpio |
 | `volatilidad_mensual_pct` | `float64` | Porcentaje (%) | 100.0% | [6.18, 20.89] (media=13.88) | Coeficiente de variación mensual |
 | `costo_logistico_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.35, 6.64] (media=3.61) | Flete refrigerado/ventilado estimado |
 | `margen_comercial_mxn_kg` | `float64` | MXN / kg | 100.0% | [1.32, 50.49] (media=12.79) | Margen neto descontando origen y flete |
 | `margen_comercial_pct` | `float64` | Porcentaje (%) | 100.0% | [8.06, 54.09] (media=35.99) | Margen comercial neto relativo |
-| `categoria_precio` | `object` | Ordinal (Bajo/Medio/Alto) | 100.0% | Valores: Bajo, Medio, Alto | Discretización por terciles |
-| `nivel_volatilidad` | `object` | Ordinal (Estable/Moderada/Alta) | 100.0% | Valores: Moderada, Alta, Estable | Riesgo de cotización |
+| `categoria_precio` | `str` | Ordinal (Bajo/Medio/Alto) | 100.0% | Valores: Bajo, Medio, Alto | Discretización por terciles |
+| `nivel_volatilidad` | `str` | Ordinal (Estable/Moderada/Alta) | 100.0% | Valores: Moderada, Alta, Estable | Riesgo de cotización |
 | `temperatura_max_c` | `float64` | Grados Celsius (°C) | 100.0% | [28.06, 33.56] (media=30.43) | Temperatura máxima media mensual |
 | `temperatura_media_c` | `float64` | Grados Celsius (°C) | 100.0% | [22.85, 29.57] (media=26.16) | Temperatura promedio mensual |
 | `precipitacion_acumulada_mm` | `float64` | Milímetros (mm) | 100.0% | [0.00, 385.91] (media=74.64) | Lluvia acumulada mensual |
 | `evapotranspiracion_mm` | `float64` | Milímetros (mm) | 100.0% | [102.23, 171.73] (media=132.93) | Evapotranspiración FAO ET0 acumulada |
 | `humedad_relativa_pct` | `float64` | Porcentaje (%) | 100.0% | [61.68, 90.10] (media=77.52) | Humedad relativa media mensual |
-| `comprador_ancla_optimo_colima` | `object` | Texto categórico | 100.0% | Valores: Empacadora San José, Limones Prolim | Comprador B2B óptimo en Colima |
+| `comprador_ancla_optimo_colima` | `str` | Texto categórico | 100.0% | Valores: Empacadora San José, Limones Prolim | Comprador B2B óptimo en Colima |
 | `distancia_vial_optima_km` | `float64` | Kilómetros (km) | 100.0% | [1.20, 48.73] (media=13.26) | Distancia vial UTM 13N óptima |
 | `flete_local_400kg_mxn_kg` | `float64` | MXN / kg | 100.0% | [0.61, 2.80] (media=1.16) | Costo logístico local en pool de 400 kg |
 | `spread_brokerage_colima_mxn_kg` | `float64` | MXN / kg | 100.0% | [0.35, 4.52] (media=3.16) | Margen neto B2B local optimizado |
-| `linaje_sha256_clima_bronce` | `object` | Escala [0, 1] / Metadato | 100.0% | Valores: 386fa43eb665d73d8a6bf80e71740e23f71a5294cc94f870651a8cdf9cb6f926 | Indicador o atributo (linaje_sha256_clima_bronce) |
-| `linaje_id_registro` | `object` | Identificador único | 100.0% | Valores: PUB-E3-00001, PUB-E3-00002, PUB-E3-00003 | ID determinista del registro en Oro |
-| `linaje_archivo_bronce` | `object` | Nombre de archivo | 100.0% | Valores: precios_agro_historico_mensual.csv | Archivo origen en data/bronce/ |
-| `linaje_sha256_bronce` | `object` | Hash SHA-256 (64 hex) | 100.0% | Valores: 432562b2249b765b8daec0db056027e7a11e6328e1c6e70d7a687caf7534daab | Firma criptográfica desde .meta.json |
-| `linaje_fecha_ingesta_utc` | `object` | ISO-8601 UTC | 100.0% | Valores: 2026-11-25T18:30:23.397643+00:00 | Timestamp de captura en Capa Bronce |
-| `linaje_fuente` | `object` | Texto identificador | 100.0% | Valores: sniim_web_verificado | Fuente de extracción verificada |
+| `linaje_sha256_clima_bronce` | `str` | Escala [0, 1] / Metadato | 100.0% | Valores: 67be16699e9d0372d65d66dea0ab3bd71e750749cec81e4383af2f01e6e7e69a | Indicador o atributo (linaje_sha256_clima_bronce) |
+| `linaje_id_registro` | `str` | Identificador único | 100.0% | Valores: PUB-E3-00001, PUB-E3-00002, PUB-E3-00003 | ID determinista del registro en Oro |
+| `linaje_archivo_bronce` | `str` | Nombre de archivo | 100.0% | Valores: precios_agro_historico_mensual.csv | Archivo origen en data/bronce/ |
+| `linaje_sha256_bronce` | `str` | Hash SHA-256 (64 hex) | 100.0% | Valores: 091f14e37c866aaa3b791b3d144a9e3a815fa2046ee47a00e668ee3fd19c79bc | Firma criptográfica desde .meta.json |
+| `linaje_fecha_ingesta_utc` | `str` | ISO-8601 UTC | 100.0% | Valores: 2026-11-26T18:11:43.309926+00:00 | Timestamp de captura en Capa Bronce |
+| `linaje_fuente` | `str` | Texto identificador | 100.0% | Valores: sniim_web_verificado | Fuente de extracción verificada |
