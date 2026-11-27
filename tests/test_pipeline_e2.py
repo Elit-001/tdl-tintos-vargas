@@ -17,8 +17,10 @@ from config import (
     ARCHIVO_ORO_GEOJSON_RUTAS,
     ARCHIVO_ORO_RUTAS_FLETE,
     COLUMNAS_LINAJE_ORO,
+    COMPRADORES_ANCLA_COLIMA,
     DATA_BRONCE,
     DATA_ORO,
+    NODOS_PRODUCTORES_COLIMA,
 )
 from extractores.base import ExtractorEtico
 
@@ -61,13 +63,14 @@ def test_calculo_geoespacial_distancias_y_fletes_colima() -> None:
 
     df_rutas = pd.read_csv(ARCHIVO_ORO_RUTAS_FLETE)
     gdf_rutas = gpd.read_file(ARCHIVO_ORO_GEOJSON_RUTAS)
+    rutas_esperadas = len(NODOS_PRODUCTORES_COLIMA) * len(COMPRADORES_ANCLA_COLIMA)
 
-    assert len(df_rutas) == 16
-    assert len(gdf_rutas) == 16
+    assert len(df_rutas) == rutas_esperadas
+    assert len(gdf_rutas) == rutas_esperadas
     assert (df_rutas["distancia_lineal_km"] > 0.0).all()
     assert (df_rutas["distancia_vial_km"] > 0.0).all()
     assert (df_rutas["costo_flete_lote_400kg_mxn"] > 0.0).all()
     assert (df_rutas["costo_flete_mxn_kg"] > 0.0).all()
-    assert int(df_rutas["es_ruta_optima"].sum()) == 4
+    assert int(df_rutas["es_ruta_optima"].sum()) == len(NODOS_PRODUCTORES_COLIMA)
     assert ARCHIVO_ORO_ANALITICO.exists()
 

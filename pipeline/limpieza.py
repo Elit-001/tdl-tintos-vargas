@@ -172,3 +172,4 @@ def ejecutar_limpieza_plata() -> dict[str, int]:
 if __name__ == "__main__":
     resumen = ejecutar_limpieza_plata()
     print(f"Limpieza en Capa Plata completada: {resumen}")
+

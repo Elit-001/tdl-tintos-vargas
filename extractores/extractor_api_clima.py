@@ -146,17 +146,22 @@ def extraer_clima_diario(fecha_captura: str) -> pd.DataFrame:
 
 
 def consolidar_csv_diario(df_nuevo: pd.DataFrame, ruta_csv: Path) -> pd.DataFrame:
-    """Acumula las capturas diarias en Bronce evitando duplicados por fecha y zona."""
+    """Acumula capturas diarias con coordenadas homogéneas a 4 decimales por zona."""
+    df_combinado = df_nuevo.copy()
     if ruta_csv.exists():
         df_previo = pd.read_csv(ruta_csv)
+        df_previo = df_previo[
+            df_previo["zona_agricola"].isin(ZONAS_AGRICOLAS_COLIMA.keys())
+        ].copy()
         df_combinado = pd.concat([df_previo, df_nuevo], ignore_index=True)
-        df_combinado = df_combinado.drop_duplicates(
-            subset=["fecha", "zona_agricola"], keep="last"
-        )
-        return df_combinado.sort_values(["fecha", "zona_agricola"]).reset_index(
-            drop=True
-        )
-    return df_nuevo.sort_values(["fecha", "zona_agricola"]).reset_index(drop=True)
+    df_combinado = df_combinado.drop_duplicates(
+        subset=["fecha", "zona_agricola"], keep="last"
+    ).copy()
+    mapa_lat = {z: round(c["latitud"], 4) for z, c in ZONAS_AGRICOLAS_COLIMA.items()}
+    mapa_lon = {z: round(c["longitud"], 4) for z, c in ZONAS_AGRICOLAS_COLIMA.items()}
+    df_combinado["latitud"] = df_combinado["zona_agricola"].map(mapa_lat)
+    df_combinado["longitud"] = df_combinado["zona_agricola"].map(mapa_lon)
+    return df_combinado.sort_values(["fecha", "zona_agricola"]).reset_index(drop=True)
 
 
 def guardar_archivos_clima(

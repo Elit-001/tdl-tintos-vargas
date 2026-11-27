@@ -140,9 +140,12 @@ def generar_diccionario_datos(
     filas_anl = [
         formatear_fila_diccionario(col, df_oro[col]) for col in list(df_oro.columns)
     ]
+    n_per = df_oro["periodo_mensual"].nunique()
+    n_cul = df_oro["cultivo"].nunique()
+    n_cen = df_oro["central_abasto"].nunique()
     bloques = [
         "# Diccionario de Datos — Capa Oro y Dataset Publicado (`E1-E3`)\n",
-        f"* **Total de registros analíticos:** `{len(df_oro)}` filas (`48` meses × `4` cultivos × `4` centrales)",
+        f"* **Total de registros analíticos:** `{len(df_oro)}` filas (`{n_per}` meses × `{n_cul}` cultivos × `{n_cen}` centrales)",
         f"* **Atributos en `dataset_analitico.csv`:** `{len(df_oro.columns)}` columnas (con linaje SHA-256)",
         "* **Estándar de calidad:** ISO/IEC 25012 + Licencia Abierta `CC BY 4.0` en `data/publicado/`\n",
         "## 1. Tabla Principal: `dataset_analitico.csv`\n",

@@ -1,9 +1,9 @@
 metrica,unidad,antes_e2,despues_e3,mejora_porcentual
-tiempo_puerta_calidad_ms,ms,450.8,444.31,1.44
-tiempo_limpieza_plata_ms,ms,775.45,244.81,68.43
-tiempo_geoespacial_utm_ms,ms,137.37,134.39,2.17
-tiempo_integracion_oro_ms,ms,589.05,598.85,-1.66
-tiempo_total_pipeline_ms,ms,1952.67,1422.36,27.16
-pico_memoria_ram_kb,KB,4220.8,3981.63,5.67
+tiempo_puerta_calidad_ms,ms,579.3,534.32,7.76
+tiempo_limpieza_plata_ms,ms,1006.35,386.53,61.59
+tiempo_geoespacial_utm_ms,ms,195.97,164.76,15.93
+tiempo_integracion_oro_ms,ms,730.07,713.18,2.31
+tiempo_total_pipeline_ms,ms,2511.69,1798.78,28.38
+pico_memoria_ram_kb,KB,5268.74,4993.57,5.22
 lecturas_disco_por_corrida,operaciones_io,13.0,3.0,76.92
-almacenamiento_capa_oro_kb,KB (CSV vs Parquet),402.21,73.72,81.67
+almacenamiento_capa_oro_kb,KB (CSV vs Parquet),513.59,85.05,83.44

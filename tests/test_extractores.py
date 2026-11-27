@@ -85,9 +85,13 @@ def test_periodos_y_esquema_precios_bronce() -> None:
         "fuente_origen",
     }
     periodos = df_mensual["periodo_mensual"].nunique()
+    filas_esperadas = (
+        PERIODOS_HISTORICOS_META * len(CULTIVOS_OBJETIVO) * len(CENTRALES_ABASTO)
+    )
     assert periodos > PERIODOS_MINIMOS_RUBRICA
     assert periodos >= PERIODOS_HISTORICOS_META
-    assert len(df_mensual) == 768
+    assert len(df_mensual) == filas_esperadas
+    assert "Colima" in set(df_mensual["central_abasto"].unique())
     assert set(df_mensual["cultivo"].unique()) == set(CULTIVOS_OBJETIVO)
     assert set(df_mensual["central_abasto"].unique()) == set(CENTRALES_ABASTO)
     assert columnas_precios.issubset(set(df_mensual.columns))

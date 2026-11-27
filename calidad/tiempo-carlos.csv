@@ -17,3 +17,6 @@ fecha,inicio,fin,interrupcion_min,fase,actividad
 2026-11-23,16:30,19:40,15,Codificación,Vectorizacion matricial de limpieza.py y geoespacial.py cache en memoria de hashes SHA-256 y flujo sin relecturas en orquestador_e1.py
 2026-11-24,17:00,19:30,10,Codificación,Desarrollo de pipeline/publicacion.py y pipeline/benchmark_e3.py generando dataset abierto CC BY 4.0 en CSV LF y Parquet
 2026-11-25,10:00,12:45,10,Revisión,Ejecucion de auditoria formal E3 como Quality Lead en docs/auditoria/auditoria-iso-E3.md redaccion de datasheet.md y test_pipeline_e3.py
+2026-11-26,15:00,18:20,15,Codificación,Expansion estatal a los 10 municipios de Colima y 5 plazas SNIIM sin truncamiento ruteo carretero real OSRM de 60 rutas y motor_brokerage.py de kilaje libre
+2026-11-26,18:30,20:45,10,Codificación,Diseno e implementacion de tablero/vistas_productor.py en lenguaje claro con calculo en rejas de 20 kg semaforo agricola y verificacion de comercios reales OSM
+2026-11-27,13:00,14:25,5,Pruebas,Sincronizacion con origin/main correccion de data/publicado en captura_diaria.yml actualizacion de README y datasheet y validacion integral 15 pruebas pytest

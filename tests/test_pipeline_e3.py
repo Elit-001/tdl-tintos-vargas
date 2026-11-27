@@ -16,14 +16,21 @@ from config import (
     ARCHIVO_BENCHMARK_E3,
     ARCHIVO_ORO_ANALITICO,
     ARCHIVO_ORO_PARQUET,
+    ARCHIVO_ORO_RUTAS_FLETE,
+    ARCHIVO_PRECIOS_DIARIO,
+    ARCHIVO_PRECIOS_MENSUAL,
     ARCHIVO_PUBLICADO_CSV,
     ARCHIVO_PUBLICADO_LICENCIA,
     ARCHIVO_PUBLICADO_PARQUET,
     ARCHIVO_PUBLICADO_README,
+    CENTRALES_ABASTO,
     COLUMNAS_LINAJE_ORO,
+    CULTIVOS_OBJETIVO,
     DATA_BRONCE,
+    PERIODOS_HISTORICOS_META,
 )
 from extractores.base import ExtractorEtico
+from pipeline.motor_brokerage import liquidar_pool_multiproductor
 
 PATRON_CORREO = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 PATRON_TELEFONO_MX = re.compile(r"\b\d{10}\b")
@@ -56,8 +63,12 @@ def test_dataset_publicado_esquema_licencia_y_cero_pii() -> None:
 
     df_pub = pd.read_csv(ARCHIVO_PUBLICADO_CSV)
     df_pq = pd.read_parquet(ARCHIVO_PUBLICADO_PARQUET)
-    assert len(df_pub) == 768
-    assert len(df_pq) == 768
+    filas_esperadas = (
+        PERIODOS_HISTORICOS_META * len(CULTIVOS_OBJETIVO) * len(CENTRALES_ABASTO)
+    )
+    assert len(df_pub) == filas_esperadas
+    assert len(df_pq) == filas_esperadas
+    assert "Colima" in set(df_pub["central_abasto"].unique())
     assert int(df_pub.isna().sum().sum()) == 0
     assert COLUMNAS_SOSPECHOSAS_PII.isdisjoint(set(df_pub.columns.str.lower()))
 
@@ -120,3 +131,34 @@ def test_validez_evidencia_benchmark_e3() -> None:
     assert float(fila_total["mejora_porcentual"]) > 0.0
     assert float(fila_io["despues_e3"]) < float(fila_io["antes_e2"])
     assert float(fila_alm["despues_e3"]) < float(fila_alm["antes_e2"])
+
+
+def test_pool_dinamico_kilaje_heterogeneo_en_colima() -> None:
+    """Valida que productores con kilajes dispares (65, 185, 310, 420 kg) se liquiden bien."""
+    df_rutas = pd.read_csv(ARCHIVO_ORO_RUTAS_FLETE)
+    rutas_walmart = df_rutas[df_rutas["comprador_ancla"] == "Walmart Colima"]
+    ofertas_dispares = [
+        {"id_oferta": "P1", "municipio": "Coquimatlán", "calidad": "Primera", "kilos_ofrecidos": 65.0},
+        {"id_oferta": "P2", "municipio": "Tecomán", "calidad": "Primera", "kilos_ofrecidos": 185.0},
+        {"id_oferta": "P3", "municipio": "Comala", "calidad": "Extra", "kilos_ofrecidos": 310.0},
+        {"id_oferta": "P4", "municipio": "Ixtlahuacán", "calidad": "Primera", "kilos_ofrecidos": 420.0},
+    ]
+    df_liq, resumen = liquidar_pool_multiproductor(
+        ofertas_dispares, 28.0, 7.5, 1200.0, rutas_walmart, 31.0
+    )
+    assert float(resumen["peso_consolidado_kg"]) == 980.0
+    assert "Rabón" in str(resumen["vehiculo_asignado"])
+    assert bool(resumen["es_rentable_vs_coyote"]) is True
+    assert (df_liq["ganancia_extra_productor_mxn"] > 0).all()
+
+
+def test_auditoria_datos_sin_truncamiento_ni_topes_artificiales() -> None:
+    """Verifica que no existan fechas rezagadas 2024/2025 ni topes falsos de 65%."""
+    df_mensual = pd.read_csv(ARCHIVO_PRECIOS_MENSUAL)
+    df_diario = pd.read_csv(ARCHIVO_PRECIOS_DIARIO)
+    assert int((df_mensual["volatilidad_mensual_pct"] >= 65.0).sum()) == 0
+    ultimos_por_par = df_diario.groupby(["cultivo", "central_abasto"])["fecha"].max()
+    assert len(ultimos_por_par) == len(CULTIVOS_OBJETIVO) * len(CENTRALES_ABASTO)
+    assert (ultimos_por_par >= "2026-10-01").all()
+
+

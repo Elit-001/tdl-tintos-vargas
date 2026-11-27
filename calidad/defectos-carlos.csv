@@ -13,3 +13,6 @@ numero,fecha,tipo,fase_introducido,fase_eliminado,minutos_correccion,defecto_ori
 12,2026-11-23,70-Datos,Codificación,Pruebas,16,N/A,Agrupacion groupby sobre columnas category sin observed=True emitia FutureWarning y creaba combinaciones vacias; se fijo observed=True
 13,2026-11-24,80-Funcion,Codificación,Pruebas,14,N/A,Conversion directa a float32 antes de escribir CSV alteraba el redondeo decimal en texto; se restringio float32 exclusivamente al archivo Parquet
 14,2026-11-25,60-Chequeo,Pruebas,Revisión,11,N/A,Primera corrida fria en benchmark_e3 sesgaba la media por importacion perezosa; se agrego corrida previa de calentamiento antes de promediar
+15,2026-11-26,70-Datos,Codificación,Revisión,24,N/A,Consulta unica de 4 anios en portal SNIIM truncaba tablas HTML a 1000 filas dejando fechas rezagadas y topes de 65 por ciento; se dividio en ventanas anuales 2022-2026 con CV real
+16,2026-11-26,10-Documentacion,Diseño,Revisión,15,N/A,Catalogo preliminar de compradores incluia nombres no verificados fisicamente en puerto y etiqueta regional Occidente; se verificaron 6 sucursales reales en OSM y plaza Morelia SNIIM
+17,2026-11-27,30-Construccion,Codificación,Revisión,10,4,Job automatico en captura_diaria.yml omitia data/publicado en git add desfasando el hash SHA-256 frente a data/bronce; se incluyo data/publicado en el commit del cron

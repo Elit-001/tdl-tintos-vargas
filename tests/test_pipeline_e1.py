@@ -13,6 +13,9 @@ from config import (
     ARCHIVO_ORO_ANALITICO,
     ARCHIVO_PLATA_CLIMA_LIMPIO,
     ARCHIVO_PLATA_PRECIOS_LIMPIO,
+    CENTRALES_ABASTO,
+    CULTIVOS_OBJETIVO,
+    PERIODOS_HISTORICOS_META,
 )
 from pipeline.puerta_calidad import crear_esquema_precios, validar_lote_bronce
 
@@ -58,7 +61,11 @@ def test_existencia_y_completitud_capa_oro() -> None:
 
     df_oro = pd.read_csv(ARCHIVO_ORO_ANALITICO)
     completitud = (1.0 - float(df_oro.isna().mean().mean())) * 100.0
-    assert len(df_oro) == 768
+    filas_esperadas = (
+        PERIODOS_HISTORICOS_META * len(CULTIVOS_OBJETIVO) * len(CENTRALES_ABASTO)
+    )
+    assert len(df_oro) == filas_esperadas
+    assert "Colima" in set(df_oro["central_abasto"].unique())
     assert completitud >= 98.0
     assert "categoria_precio" in df_oro.columns
     assert "precio_mayorista_mxn_kg_norm" in df_oro.columns

@@ -126,6 +126,8 @@ def _geoespacial_legado_e2() -> None:
                 "lote_consolidado_kg": PESO_LOTE_CONSOLIDADO_KG,
                 "distancia_lineal_km": round(max(0.8, d_km), 2),
                 "distancia_vial_km": d_vial,
+                "tiempo_traslado_min": round((d_vial / 52.0) * 60.0, 1),
+                "indice_sinuosidad_real": round(d_vial / max(0.8, d_km), 2),
                 "costo_flete_lote_400kg_mxn": fl_lote,
                 "costo_flete_mxn_kg": fl_kg,
                 "precio_compra_productor_mxn_kg": p_cmp,
