@@ -13,3 +13,7 @@ fecha,inicio,fin,interrupcion_min,fase,actividad
 2026-11-16,17:00,20:10,15,Codificación,Desarrollo y ejecucion de laboratorio/E2_diseno_experimentos.ipynb con tabla ANOVA graficas de interaccion y pruebas Shapiro-Levene
 2026-11-17,16:00,19:00,10,Revisión,Ejecucion de auditoria formal ISO/IEC 25010 e ISO/IEC 25012 como Quality Lead E2 documentada en docs/auditoria/auditoria-iso-E2.md
 2026-11-18,16:30,19:15,10,Postmortem,Redaccion de declaracion legal docs/etica-datos.md relatoria tecnica docs/relatoria-E2.md y ficha docs/E2/ENTREGA.md
+2026-11-22,16:30,19:00,10,Diseño,Seleccion de variables continuas estandarizacion Z-score e hipotesis multivariadas para PCA y MANOVA dos vias en etapa E3
+2026-11-23,17:00,20:15,15,Codificación,Implementacion y ejecucion de laboratorio/E3_multivariado_pca_manova.ipynb con Scree Plot Biplot y contrastes Wilks Pillai Hotelling Roy
+2026-11-24,16:30,18:50,10,Pruebas,Verificacion de supuestos multivariados correlacion de Bartlett y revision cruzada del dataset curado agropulse_colima_curado.csv
+2026-11-25,10:30,13:00,10,Postmortem,Integracion de hallazgos estadisticos multivariados y evidencia de benchmark en docs/E3/ENTREGA.md y docs/relatoria-E3.md

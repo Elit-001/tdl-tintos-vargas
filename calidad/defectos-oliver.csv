@@ -10,3 +10,6 @@ numero,fecha,tipo,fase_introducido,fase_eliminado,minutos_correccion,defecto_ori
 9,2026-11-15,40-Asignacion,Diseño,Codificación,16,N/A,Codificacion preliminar (0 y 1) en factores del diseno 2^3 alteraba la ortogonalidad de los contrastes; se estandarizo a (-1 y +1)
 10,2026-11-16,80-Funcion,Diseño,Pruebas,22,N/A,Generador preliminar D=AB producia Resolucion III confundiendo efectos principales con interacciones dobles; se elevo a D=ABC Resolucion IV
 11,2026-11-17,60-Chequeo,Codificación,Revisión,14,N/A,Faltaba contraste formal de homocedasticidad de Levene entre tratamientos en el notebook E2; se agrego scipy.stats.levene junto con Shapiro-Wilk
+12,2026-11-22,80-Funcion,Diseño,Codificación,18,N/A,Ejecucion inicial de PCA sin estandarizar Z-score hacia que precipitacion_acumulada_mm dominara el 91 por ciento de PC1 por escala; se estandarizo matriz
+13,2026-11-23,70-Datos,Codificación,Pruebas,20,N/A,Inclusion simultanea de margen_comercial_mxn_kg y precio_mayorista_mxn_kg con costo fijo generaba colinealidad alta en MANOVA; se depuro el vector dependiente
+14,2026-11-24,10-Documentacion,Postmortem,Revisión,12,N/A,Seccion de usos no recomendados en datasheet.md omitia advertir contra perfilamiento crediticio individual sin auditoria agricola local
